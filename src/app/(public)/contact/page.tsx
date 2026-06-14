@@ -9,12 +9,11 @@ export default function ContactPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
 
-      const result =
-        await sendContactMessage(data);
+      const result = await sendContactMessage(data);
 
       alert(result.data.message);
 
@@ -28,68 +27,44 @@ export default function ContactPage() {
 
   return (
     <main>
-
       <section className="bg-blue-50 py-20">
         <div className="mx-auto max-w-5xl px-4 text-center">
-
-          <h1 className="text-5xl font-bold">
-            Contact Us
-          </h1>
+          <h1 className="text-5xl font-bold">Contact Us</h1>
 
           <p className="mt-4 text-gray-600">
-            Have questions about admissions,
-            classes or learning programs?
+            Have questions about admissions, classes or learning programs?
           </p>
-
         </div>
       </section>
 
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-4">
-
           <div className="grid gap-10 md:grid-cols-2">
-
             <div>
-
-              <h2 className="text-3xl font-bold">
-                Get In Touch
-              </h2>
+              <h2 className="text-3xl font-bold">Get In Touch</h2>
 
               <div className="mt-8 space-y-6">
-
                 <div className="rounded-xl border p-5">
-                  <h3 className="font-semibold">
-                    Email
-                  </h3>
+                  <h3 className="font-semibold">Email</h3>
 
                   <p>support@nbca.co.in</p>
                 </div>
 
                 <div className="rounded-xl border p-5">
-                  <h3 className="font-semibold">
-                    Location
-                  </h3>
+                  <h3 className="font-semibold">Location</h3>
 
                   <p>Jalpaiguri, West Bengal</p>
                 </div>
 
                 <div className="rounded-xl border p-5">
-                  <h3 className="font-semibold">
-                    Platform
-                  </h3>
+                  <h3 className="font-semibold">Platform</h3>
 
                   <p>Online Learning Platform</p>
                 </div>
-
               </div>
-
             </div>
 
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="space-y-5"
-            >
-
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <input
                 {...register("name")}
                 placeholder="Your Name"
@@ -119,18 +94,12 @@ export default function ContactPage() {
                 disabled={loading}
                 className="w-full rounded-xl bg-blue-700 py-4 font-semibold text-white"
               >
-                {loading
-                  ? "Sending..."
-                  : "Send Message"}
+                {loading ? "Sending..." : "Send Message"}
               </button>
-
             </form>
-
           </div>
-
         </div>
       </section>
-
     </main>
   );
 }
