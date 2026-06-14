@@ -1,6 +1,6 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const sendContactMessage = async (payload) => {
+export const sendContactMessage = async (payload : any) => {
   const response = await fetch(
     `${API_URL}/contact`,
     {
