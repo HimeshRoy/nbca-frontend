@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { getMyProfile,updateTeacherProfile } from "@/services/profile.service";
+import { getMyProfile, updateTeacherProfile } from "@/services/profile.service";
 import { uploadFile } from "@/services/upload.service";
 
 export default function ProfilePage() {
@@ -15,6 +15,15 @@ export default function ProfilePage() {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
 
   const [photoPreview, setPhotoPreview] = useState("");
+
+  const [passwordOpen, setPasswordOpen] = useState(false);
+
+  const [passwordData, setPasswordData] = useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [passwordSaving, setPasswordSaving] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -53,6 +62,37 @@ export default function ProfilePage() {
       console.error(error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    try {
+      if (passwordData.password !== passwordData.confirmPassword) {
+        alert("Passwords do not match");
+
+        return;
+      }
+
+      setPasswordSaving(true);
+
+      await updateTeacherProfile(profile.id, {
+        password: passwordData.password,
+      });
+
+      alert("Password updated successfully");
+
+      setPasswordOpen(false);
+
+      setPasswordData({
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error(error);
+
+      alert("Failed to update password");
+    } finally {
+      setPasswordSaving(false);
     }
   };
 
@@ -103,9 +143,15 @@ export default function ProfilePage() {
         </div>
         <button
           onClick={() => setOpen(true)}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-white mt-8"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-white mt-8 cursor-pointer"
         >
           Edit Profile
+        </button>
+        <button
+          onClick={() => setPasswordOpen(true)}
+          className="ml-3 rounded-lg bg-red-600 px-4 py-2 text-white cursor-pointer"
+        >
+          Change Password
         </button>
       </div>
 
@@ -285,21 +331,74 @@ export default function ProfilePage() {
               />
             </div>
             <div className="mt-6 flex justify-end gap-3">
-            <button
-              onClick={() => setOpen(false)}
-              className="rounded border px-4 py-2"
-            >
-              Cancel
-            </button>
+              <button
+                onClick={() => setOpen(false)}
+                className="rounded border px-4 py-2"
+              >
+                Cancel
+              </button>
 
-            <button
-              disabled={saving}
-              onClick={handleUpdateProfile}
-              className="rounded bg-blue-600 px-4 py-2 text-white"
-            >
-              {saving ? "Saving..." : "Save Changes"}
-            </button>
+              <button
+                disabled={saving}
+                onClick={handleUpdateProfile}
+                className="rounded bg-blue-600 px-4 py-2 text-white"
+              >
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
           </div>
+        </div>
+      )}
+
+      {passwordOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-xl bg-white p-6">
+            <h2 className="mb-4 text-2xl font-bold">Change Password</h2>
+
+            <div className="space-y-4">
+              <input
+                type="password"
+                placeholder="New Password"
+                value={passwordData.password}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    password: e.target.value,
+                  })
+                }
+                className="w-full rounded border p-3"
+              />
+
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={passwordData.confirmPassword}
+                onChange={(e) =>
+                  setPasswordData({
+                    ...passwordData,
+                    confirmPassword: e.target.value,
+                  })
+                }
+                className="w-full rounded border p-3"
+              />
+            </div>
+
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => setPasswordOpen(false)}
+                className="rounded border px-4 py-2"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleChangePassword}
+                disabled={passwordSaving}
+                className="rounded bg-red-600 px-4 py-2 text-white"
+              >
+                {passwordSaving ? "Updating..." : "Update Password"}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -190,8 +190,9 @@ export default function TestsPage() {
 
   return (
     <div>
+      <div className="mb-6 flex justify-between">
       <h1 className="mb-6 text-3xl font-bold">Tests</h1>
-      <div className="mb-6 flex justify-end">
+      <div>
         <button
           onClick={() => {
             setEditingTest(null);
@@ -223,10 +224,11 @@ export default function TestsPage() {
 
             setOpen(true);
           }}
-          className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-white cursor-pointer"
         >
           Create Test
         </button>
+        </div>
       </div>
       <div className="space-y-4 grid md:grid-cols-2">
         {tests.map((test) => (

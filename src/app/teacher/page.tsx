@@ -26,8 +26,6 @@ export default function TeacherDashboard() {
 
         const dashboard = await getTeacherDashboard();
 
-        console.log("Dashboard API:", dashboard);
-
         setStats(dashboard.data);
       } catch (error) {
         console.error(error);
@@ -38,19 +36,29 @@ export default function TeacherDashboard() {
   }, []);
 
   useEffect(() => {
-    console.log("Stats Updated:", stats);
   }, [stats]);
 
   return (
     <div>
-      <div className="p-6 bg-blue-950 rounded-2xl">
+      <div className="p-6 bg-blue-950 rounded-2xl flex justify-between items-center">
+        <div>
         <h1 className="text-3xl font-bold text-white">
           Welcome,
           {teacher?.name}
-          👋
         </h1>
 
         <p className="mt-2 text-slate-300">Teacher Dashboard</p>
+        </div>
+
+        <div className="justify-end">
+          <Link href={"/teacher/profile"} title="Profile">
+          <img
+            src={teacher?.photo || "/avatar.png"}
+            alt="Teacher"
+            className="h-15 w-15 rounded-full object-cover"
+          />
+          </Link>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -114,7 +122,7 @@ export default function TeacherDashboard() {
         <div>
           <h2 className="mb-4 text-2xl font-bold">Quick Actions</h2>
 
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
             <Link
               href="/teacher/assignments"
               className="rounded-xl bg-white p-6 shadow transition hover:shadow-lg"
@@ -152,10 +160,10 @@ export default function TeacherDashboard() {
             </Link>
           </div>
         </div>
-        <div className="rounded-xl bg-white p-6 shadow">
+        <div className="rounded-xl bg-white p-6 shadow overflow-y-scroll">
           <h2 className="mb-4 text-2xl font-bold">Recent Notices</h2>
 
-          <div className="space-y-4 overflow-y-scroll">
+          <div className="space-y-4">
             {stats?.recentNotices?.length ? (
               stats.recentNotices.map((notice: any) => (
                 <div key={notice.id} className="bg-blue-100 p-4 rounded-xl mb-4">

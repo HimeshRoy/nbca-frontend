@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^1.17.0",
-    "lucide-react": "^1.17.0",
+    "lucide-react": "^1.21.0",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-big-calendar": "^1.20.0",
@@ -33,7 +33,6 @@
     "typescript": "^5"
   },
   "allowScripts": {
-    "lucide-react@1.17.0": true,
     "axios@1.17.0": true,
     "react-hook-form@7.78.0": true,
     "zod@4.4.3": true,
@@ -41,6 +40,7 @@
     "react-big-calendar@1.20.0": true,
     "react-calendar@6.0.1": true,
     "recharts@3.8.1": true,
-    "react-icons@5.6.0": true
+    "react-icons@5.6.0": true,
+    "lucide-react@1.21.0": true
   }
 }

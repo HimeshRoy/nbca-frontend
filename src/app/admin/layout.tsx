@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-
+import TeacherLogoutButton from "@/components/ui/TeacherLogoutButton";
 export default function AdminLayout({
   children,
 }: {
@@ -10,7 +10,7 @@ export default function AdminLayout({
     <div className="min-h-screen bg-slate-100">
       <div className="flex">
         {/* Sidebar */}
-        <aside className="hidden md:flex w-64 h-screen bg-slate-900 text-white flex-col fixed left-0 top-0">
+        <aside className="hidden md:flex w-64 h-screen bg-slate-900 text-white flex-col fixed left-0 top-0 rounded-br-3xl rounded-tr-3xl">
           <div className="p-6">
             <div className="mb-4 flex items-center gap-4 rounded-2xl ">
               <Image src="/logo.png" alt="NBCA" width={60} height={60} />{" "}
@@ -74,6 +74,9 @@ export default function AdminLayout({
               Notices
             </Link>
           </nav>
+          <div className="relative bottom-5 p-8">
+            <TeacherLogoutButton />
+          </div>
         </aside>
 
         {/* Content */}
