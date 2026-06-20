@@ -46,7 +46,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/register"
+              href="/signup"
               className="bg-blue-900 text-white px-5 py-2 rounded-lg"
             >
               Enroll Now
@@ -85,7 +85,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/register"
+              href="/signup"
               className="mt-2 bg-blue-900 text-white rounded-lg px-4 py-3 text-center"
             >
               Enroll Now
