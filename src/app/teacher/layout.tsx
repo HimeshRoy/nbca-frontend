@@ -37,6 +37,12 @@ export default function TeacherLayout({
           >
             Tests
           </Link>
+          <Link
+            href="/teacher/question-bank"
+            className="block rounded-lg px-4 py-3 hover:bg-slate-800"
+          >
+            Question Bank
+          </Link>
 
           <Link
             href="/teacher/live-classes"

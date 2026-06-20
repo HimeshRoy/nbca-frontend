@@ -33,3 +33,9 @@ export const deleteChapter = async (id: string) => {
 
   return response.data;
 };
+
+export const getChapterById = async (id: string) => {
+  const response = await api.get(`/chapters/${id}`, getHeaders());
+
+  return response.data;
+};
