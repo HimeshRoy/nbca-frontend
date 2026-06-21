@@ -39,3 +39,12 @@ export const getChapterById = async (id: string) => {
 
   return response.data;
 };
+
+export const getStudentChapters = async (subjectId: string) => {
+  const response = await api.get(
+    `/chapters/student/${subjectId}`,
+    getHeaders(),
+  );
+
+  return response.data;
+};

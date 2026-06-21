@@ -61,3 +61,18 @@ export const uploadResourceFile = async (file: File) => {
 
   return response.data;
 };
+
+export const getStudentResources = async () => {
+  const response = await api.get("/resources/student", getHeaders());
+
+  return response.data;
+};
+
+export const getStudentChapterResources = async (chapterId: string) => {
+  const response = await api.get(
+    `/resources/student/chapter/${chapterId}`,
+    getHeaders(),
+  );
+
+  return response.data;
+};
