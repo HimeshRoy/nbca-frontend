@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import {
   adminLogin,
@@ -39,18 +40,19 @@ export default function LoginPage() {
 
           saveToken(result.data.token);
 
+          toast.success("Welcome Admin");
           router.push("/admin");
 
           return;
         } catch (error) {
           console.log("Admin Login Failed", error);
-          console.log(result);
         }
 
         result = await teacherLogin(identifier, password);
 
         saveToken(result.data.token);
 
+        toast.success("Welcome Teacher");
         router.push("/teacher");
 
         return;
@@ -60,9 +62,10 @@ export default function LoginPage() {
 
       saveToken(result.data.token);
 
+      toast.success("Welcome Student");
       router.push("/student");
     } catch (error: any) {
-      setError("Invalid credentials");
+      toast.error("Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -134,7 +137,7 @@ export default function LoginPage() {
             <p className="text-gray-600">Don't have an account?</p>
 
             <Link
-              href="/register"
+              href="/signup"
               className="mt-2 inline-block font-semibold text-blue-700 hover:underline"
             >
               Create Student Account

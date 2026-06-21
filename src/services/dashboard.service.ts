@@ -1,6 +1,12 @@
 import { api } from "@/lib/api";
 import { getToken } from "@/lib/auth";
 
+const getHeaders = () => ({
+  headers: {
+    Authorization: `Bearer ${getToken()}`,
+  },
+});
+
 export const getDashboardStats = async () => {
   const token = getToken();
 
@@ -21,6 +27,12 @@ export const getTeacherDashboard = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  return response.data;
+};
+
+export const getStudentDashboard = async () => {
+  const response = await api.get("/dashboard/student", getHeaders());
 
   return response.data;
 };
