@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { logout } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 import {
   getMyProfile,
@@ -9,6 +11,7 @@ import {
 import StudentIdCardModal from "@/components/student/StudentIdCardModal";
 
 export default function StudentProfilePage() {
+  const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
 
   const [loading, setLoading] = useState(true);
@@ -60,6 +63,12 @@ export default function StudentProfilePage() {
       </div>
     );
   }
+
+  const handleLogout = () => {
+    logout();
+
+    router.replace("/login");
+  };
 
   return (
     <div className="min-h-screen p-4 pb-24">
@@ -168,28 +177,20 @@ export default function StudentProfilePage() {
               onClose={() => setOpenIdCard(false)}
               profile={profile}
             />
-
           </div>
         </div>
         <div className=" p-3">
+          <div className="mt-6 grid grid-cols-2 gap-4">
+            <button className="w-full rounded-2xl py-3 bg-blue-600 font-semibold text-white transition hover:bg-blue-700">
+              Update Profile
+            </button>
 
-  <div className="mt-6 grid grid-cols-2 gap-4">
-
-    <button
-      className="w-full rounded-2xl py-3 bg-blue-600 font-semibold text-white transition hover:bg-blue-700"
-    >
-      Update Profile
-    </button>
-
-    <button
-      className="w-full rounded-2xl py-3 bg-red-600 font-semibold text-white transition hover:bg-red-700"
-    >
-      Logout
-    </button>
-
-  </div>
-
-</div>
+            <button className="w-full rounded-2xl py-3 bg-red-600 font-semibold text-white transition hover:bg-red-700"
+            onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
