@@ -42,6 +42,16 @@ export default function StudyMaterialsPage() {
     );
   }
 
+  const subjectIcons: Record<string, string> = {
+  Physics: "⚛️",
+  Chemistry: "🧪",
+  Biology: "🧬",
+  Mathematics: "📐",
+  English: "📖",
+  History: "🏛️",
+  Geography: "🌍",
+};
+
   return (
     <div className="min-h-screen p-4 md:p-8">
 
@@ -77,7 +87,7 @@ export default function StudyMaterialsPage() {
               "
               >
                 <div className="text-5xl">
-                  📚
+                  {subjectIcons[subject.name] || "📚"}
                 </div>
 
                 <h2 className="mt-4 text-lg font-bold">

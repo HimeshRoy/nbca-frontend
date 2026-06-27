@@ -14,7 +14,7 @@ export const getAssignments = async () => {
 };
 
 export const getAssignmentById = async (id: string) => {
-  const response = await api.get(`/assignments/${id}`, getHeaders());
+  const response = await api.get(`/assignments/teacher/${id}`, getHeaders());
 
   return response.data;
 };
@@ -33,6 +33,18 @@ export const updateAssignment = async (id: string, payload: any) => {
 
 export const deleteAssignment = async (id: string) => {
   const response = await api.delete(`/assignments/${id}`, getHeaders());
+
+  return response.data;
+};
+
+export const getStudentAssignments = async () => {
+  const response = await api.get("/assignments/student", getHeaders());
+
+  return response.data;
+};
+
+export const getStudentAssignmentById = async (id: string) => {
+  const response = await api.get(`/assignments/student/${id}`, getHeaders());
 
   return response.data;
 };

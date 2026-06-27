@@ -116,7 +116,7 @@ export default function AssignmentDetailsPage() {
         ) : (
           <div className="space-y-4">
             {assignment.submissions?.map((submission: any) => (
-              <div className="space-y-4">
+              <div className="space-y-4" key={null}>
                 {assignment.submissions?.map((submission: any) => (
                   <div key={submission.id} className="rounded-xl border p-4">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">

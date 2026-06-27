@@ -3,6 +3,7 @@
 import { getStudentDashboard } from "@/services/dashboard.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function StudentDashboard() {
   const [dashboard, setDashboard] = useState<any>(null);
@@ -40,6 +41,7 @@ export default function StudentDashboard() {
       <div className="absolute right-10 top-40 h-52 w-52 rounded-full bg-blue-300/20 blur-3xl" />
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="rounded-[35px] bg-white p-6 shadow-[20px_20px_60px_#d9d9d9,-20px_-20px_60px_#ffffff]">
+          <Link href={"/student/profile"}>
           <div className="flex items-center justify-between">
             <div>
               <h4 className="text-sm font-medium text-slate-500">{greeting}</h4>
@@ -67,6 +69,7 @@ export default function StudentDashboard() {
               className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
             />
           </div>
+          </Link>
         </div>
 
         <div className="mt-8">

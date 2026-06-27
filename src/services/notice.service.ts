@@ -8,46 +8,31 @@ const getHeaders = () => ({
 });
 
 export const getNotices = async () => {
-  const response = await api.get(
-    "/notices",
-    getHeaders()
-  );
+  const response = await api.get("/notices", getHeaders());
 
   return response.data;
 };
 
-export const createNotice = async (
-  payload: any
-) => {
-  const response = await api.post(
-    "/notices",
-    payload,
-    getHeaders()
-  );
+export const createNotice = async (payload: any) => {
+  const response = await api.post("/notices", payload, getHeaders());
 
   return response.data;
 };
 
-export const updateNotice = async (
-  id: string,
-  payload: any
-) => {
-  const response = await api.patch(
-    `/notices/${id}`,
-    payload,
-    getHeaders()
-  );
+export const updateNotice = async (id: string, payload: any) => {
+  const response = await api.patch(`/notices/${id}`, payload, getHeaders());
 
   return response.data;
 };
 
-export const deleteNotice = async (
-  id: string
-) => {
-  const response = await api.delete(
-    `/notices/${id}`,
-    getHeaders()
-  );
+export const deleteNotice = async (id: string) => {
+  const response = await api.delete(`/notices/${id}`, getHeaders());
+
+  return response.data;
+};
+
+export const getStudentNotices = async () => {
+  const response = await api.get("/notices", getHeaders());
 
   return response.data;
 };

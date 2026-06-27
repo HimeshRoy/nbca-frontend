@@ -1,5 +1,6 @@
 "use client";
 
+import { Home, NotebookTabs, StickyNotePlus, Bell, UserRoundPen, BookOpenCheck } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -8,30 +9,35 @@ export default function StudentBottomNav() {
 
   const menus = [
     {
-      name: "Home",
-      icon: "🏠",
-      href: "/student",
-    },
-    {
       name: "Learn",
-      icon: "📚",
+      icon: <NotebookTabs />,
       href: "/student/study-materials",
     },
     {
       name: "Tasks",
-      icon: "📝",
+      icon: <StickyNotePlus />,
       href: "/student/assignments",
+    },
+     {
+      name: "Home",
+      icon: <Home />,
+      href: "/student",
+    },
+    {
+      name: "Test",
+      icon: <BookOpenCheck />,
+      href: "/student/tests",
     },
     {
       name: "Notices",
-      icon: "🔔",
+      icon: <Bell />,
       href: "/student/notices",
     },
-    {
-      name: "Profile",
-      icon: "👤",
-      href: "/student/profile",
-    },
+    // {
+    //   name: "Profile",
+    //   icon: <UserRoundPen />,
+    //   href: "/student/profile",
+    // },
   ];
 
   return (
@@ -46,7 +52,7 @@ shadow-xl
 md:hidden
 "
     >
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-5 gap-3">
         {menus.map((item) => (
           <Link
             key={item.href}
