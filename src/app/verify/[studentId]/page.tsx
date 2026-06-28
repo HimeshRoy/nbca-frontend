@@ -149,6 +149,7 @@ export default function VerifyPage() {
             This verification confirms that the Student ID belongs to an active
             student registered with North Bengal Cloud Academy. If any
             information appears incorrect, please contact the academy.
+            
           </p>
         </div>
       </div>
