@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { verifyStudentCard } from "@/services/verify.service";
 import { GoUnverified } from "react-icons/go";
@@ -7,11 +8,10 @@ import { MdVerified } from "react-icons/md";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 
-export default function VerifyPage({
-  params,
-}: {
-  params: { studentId: string };
-}) {
+export default function VerifyPage() {
+  const params = useParams();
+
+  const studentId = params.studentId as string;
   const [loading, setLoading] = useState(true);
   const [student, setStudent] = useState<any>(null);
   const [invalid, setInvalid] = useState(false);
@@ -19,7 +19,7 @@ export default function VerifyPage({
   useEffect(() => {
     const load = async () => {
       try {
-        const result = await verifyStudentCard(params.studentId);
+        const result = await verifyStudentCard(studentId);
 
         setStudent(result.data);
       } catch (error) {
@@ -30,9 +30,9 @@ export default function VerifyPage({
     };
 
     load();
-  }, [params.studentId]);
+  }, [studentId]);
 
-   if (invalid) {
+  if (invalid) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4">
         <div className="w-full max-w-md rounded-[35px] bg-white p-8 text-center shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
