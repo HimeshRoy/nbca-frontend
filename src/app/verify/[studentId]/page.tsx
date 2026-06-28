@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { verifyStudentCard } from "@/services/verify.service";
@@ -8,7 +9,7 @@ import { MdVerified } from "react-icons/md";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Student Verification | NBCA",
   description: "Official Student Identity Verification Portal",
 };
