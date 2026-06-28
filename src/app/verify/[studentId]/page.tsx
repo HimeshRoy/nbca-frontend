@@ -142,16 +142,6 @@ export default function VerifyPage() {
             © {new Date().getFullYear()} NBCA. All Rights Reserved.
           </p>
         </div>
-        <div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-4 text-left">
-          <h3 className="font-semibold text-green-700">Security Notice</h3>
-
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            This verification confirms that the Student ID belongs to an active
-            student registered with North Bengal Cloud Academy. If any
-            information appears incorrect, please contact the academy.
-            
-          </p>
-        </div>
       </div>
     </div>
   );
