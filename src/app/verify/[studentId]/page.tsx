@@ -69,7 +69,7 @@ export default function VerifyPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4">
       <div className="w-full max-w-md rounded-[35px] bg-white p-8 text-center shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-        <div className="flex flex-col items-center justify-center mb-6">
+        <div className="flex flex-col items-center justify-center">
           <Image src={logo} alt="NBCA" className="h-20 w-20 object-contain" />
 
           <h2 className="mt-4 text-2xl font-bold text-slate-800">
