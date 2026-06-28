@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { verifyStudentCard } from "@/services/verify.service";
 import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
+import Image from "next/image";
+import logo from "@/assets/logo.png";
 
 export default function VerifyPage({
   params,
@@ -30,19 +32,13 @@ export default function VerifyPage({
     load();
   }, [params.studentId]);
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Verifying...
-      </div>
-    );
-  }
-
-  if (invalid) {
+   if (invalid) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4">
         <div className="w-full max-w-md rounded-[35px] bg-white p-8 text-center shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-          <div className="text-6xl text-red-700"><GoUnverified /></div>
+          <div className="text-6xl text-red-700 flex justify-center items-center">
+            <GoUnverified />
+          </div>
 
           <h1 className="mt-4 text-3xl font-bold text-red-600">
             Verification Failed
@@ -62,19 +58,39 @@ export default function VerifyPage({
     );
   }
 
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        Verifying...
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100 p-4">
       <div className="w-full max-w-md rounded-[35px] bg-white p-8 text-center shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-        <div className="mb-6 flex justify-center">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
-            <span className="text-5xl text-green-600 "><MdVerified /></span>
+        <div className="flex flex-col items-center justify-center mb-6">
+          <Image src={logo} alt="NBCA" className="h-20 w-20 object-contain" />
+
+          <h2 className="mt-4 text-2xl font-bold text-slate-800">
+            North Bengal Cloud Academy
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500">
+            Student Identity Verification
+          </p>
+
+          <div className="flex h-20 w-20 items-center justify-center">
+            <span className="text-5xl text-green-600 ">
+              <MdVerified />
+            </span>
           </div>
         </div>
 
         <h1 className="text-3xl font-bold text-green-700">Student Verified</h1>
 
         <p className="mt-2 text-slate-500">
-          This student identity card is valid.
+          This student identity card is authentic.
         </p>
 
         <div className="mt-8 space-y-4 text-left">
