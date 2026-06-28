@@ -4,6 +4,7 @@ import { getStudentDashboard } from "@/services/dashboard.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { MdClass } from "react-icons/md";
 
 export default function StudentDashboard() {
   const [dashboard, setDashboard] = useState<any>(null);
@@ -17,7 +18,6 @@ export default function StudentDashboard() {
         const result = await getStudentDashboard();
 
         setDashboard(result.data);
-        console.log(result.data);
       } finally {
         setLoading(false);
       }
@@ -42,36 +42,38 @@ export default function StudentDashboard() {
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="rounded-[35px] bg-white p-6 shadow-[20px_20px_60px_#d9d9d9,-20px_-20px_60px_#ffffff]">
           <Link href={"/student/profile"}>
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="text-sm font-medium text-slate-500">{greeting}</h4>
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-sm font-medium text-slate-500">
+                  {greeting}
+                </h4>
 
-              <h1 className="mt-1 text-3xl font-bold">
-                {dashboard.student.name}
-              </h1>
+                <h1 className="mt-1 text-3xl font-bold">
+                  {dashboard.student.name}
+                </h1>
 
-              <p className="mt-2 text-slate-500">
-                {dashboard.student.class}
-                {" • "}
-                {dashboard.student.board}
-              </p>
+                <p className="mt-2 text-slate-500">
+                  {dashboard.student.class}
+                  {" • "}
+                  {dashboard.student.board}
+                </p>
 
-              <div className="mt-3 inline-flex rounded-full bg-violet-100 px-3 py-1 text-sm font-semibold text-violet-700">
-                🎓 {dashboard.student.studentId}
+                <div className="mt-3 inline-flex rounded-full bg-violet-100 px-3 py-1 text-sm font-semibold text-violet-700">
+                  🎓 {dashboard.student.studentId}
+                </div>
+              </div>
+              <div>
+                <img
+                  src={
+                    dashboard.student.photo ||
+                    "https://static.vecteezy.com/system/resources/thumbnails/057/743/234/small/blue-user-profile-icon-3d-rendered-person-symbol-png.png"
+                  }
+                  alt="Student"
+                  className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
+                />
+                <span className="text-sm text-blue-600">View Profile</span>
               </div>
             </div>
-            <div>
-            <img
-              src={
-                dashboard.student.photo ||
-                "https://static.vecteezy.com/system/resources/thumbnails/057/743/234/small/blue-user-profile-icon-3d-rendered-person-symbol-png.png"
-              }
-              alt="Student"
-              className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
-            />
-            <span className="text-sm text-blue-600">View Profile</span>
-            </div>
-          </div>
           </Link>
         </div>
 
@@ -147,6 +149,14 @@ export default function StudentDashboard() {
           </div>
         </div>
 
+        <Link href={"student/live-classes"}>
+          <div className="mt-8">
+            <div className="rounded-[35px] bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white shadow-xl text-xl text-center flex justify-center items-center gap-3 font-bold">
+              <MdClass /> Check Live Classes
+            </div>
+          </div>
+        </Link>
+
         <div className="mt-8">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-bold">Upcoming Classes</h2>
@@ -169,28 +179,32 @@ export default function StudentDashboard() {
               </p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {dashboard.upcomingClasses.map((liveClass: any) => (
-                <div
-                  key={liveClass.id}
-                  className="rounded-[30px] bg-white p-5 shadow-[15px_15px_40px_#d9d9d9,-15px_-15px_40px_#ffffff]"
-                >
-                  <h3 className="font-bold text-lg">{liveClass.title}</h3>
+            <Link href={"student/live-classes"}>
+              <div className="space-y-4">
+                {dashboard.upcomingClasses.map((liveClass: any) => (
+                  <div
+                    key={liveClass.id}
+                    className="rounded-[30px] bg-white p-5 shadow-[15px_15px_40px_#d9d9d9,-15px_-15px_40px_#ffffff]"
+                  >
+                    <h3 className="font-bold text-lg">{liveClass.title}</h3>
 
-                  <p className="mt-1 text-slate-500">{liveClass.description}</p>
+                    <p className="mt-1 text-slate-500">
+                      {liveClass.description}
+                    </p>
 
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="rounded-full bg-violet-100 px-3 py-1 text-sm text-violet-700">
-                      Live Class
-                    </span>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="rounded-full bg-violet-100 px-3 py-1 text-sm text-violet-700">
+                        Live Class
+                      </span>
 
-                    <span className="text-sm text-slate-500">
-                      {new Date(liveClass.startTime).toLocaleString()}
-                    </span>
+                      <span className="text-sm text-slate-500">
+                        {new Date(liveClass.startTime).toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </Link>
           )}
         </div>
 

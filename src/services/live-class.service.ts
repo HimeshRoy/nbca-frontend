@@ -55,3 +55,15 @@ export const getLiveClassAttendance = async (id: string) => {
 
   return response.data;
 };
+
+export const getStudentLiveClasses = async () => {
+  const response = await api.get("/live-classes/student", getHeaders());
+
+  return response.data;
+};
+
+export const joinLiveClass = async (id: string) => {
+  const response = await api.get(`/live-classes/join/${id}`, getHeaders());
+
+  return response.data;
+};
