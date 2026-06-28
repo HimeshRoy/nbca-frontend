@@ -1,6 +1,4 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "Student Verification | NBCA",
   description: "Official Student Identity Verification Portal",
 };
