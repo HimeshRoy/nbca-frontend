@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MdClass } from "react-icons/md";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function StudentDashboard() {
   const [dashboard, setDashboard] = useState<any>(null);
@@ -32,7 +33,16 @@ export default function StudentDashboard() {
     hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
   if (loading) {
-    return <div className="min-h-screen">Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
+      </div>
+    );
   }
   return (
     <div className="relative min-h-screen overflow-hidden p-4 pb-10 md:pb-8">
@@ -71,7 +81,9 @@ export default function StudentDashboard() {
                   alt="Student"
                   className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
                 />
-                <span className="text-sm text-blue-600">View Profile</span>
+                <span className="text-sm text-blue-600 text-center">
+                  View Profile
+                </span>
               </div>
             </div>
           </Link>

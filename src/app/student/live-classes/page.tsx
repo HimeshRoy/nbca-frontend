@@ -5,6 +5,7 @@ import {
   getStudentLiveClasses,
   joinLiveClass,
 } from "@/services/live-class.service";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 import { toast } from "sonner";
 import { Calendar, TimerIcon } from "lucide-react";
@@ -64,9 +65,14 @@ export default function StudentLiveClassesPage() {
   );
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading live classes...
+     return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }

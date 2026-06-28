@@ -10,6 +10,7 @@ import {
 import StudentIdCardModal from "@/components/student/StudentIdCardModal";
 import Link from "next/link";
 import { ImGift } from "react-icons/im";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function StudentProfilePage() {
   const router = useRouter();
@@ -59,8 +60,13 @@ export default function StudentProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }

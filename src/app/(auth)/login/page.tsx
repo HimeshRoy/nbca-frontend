@@ -63,7 +63,7 @@ export default function LoginPage() {
       saveToken(result.data.token);
 
       toast.success("Welcome Student");
-      router.push("/student");
+      router.replace("/student-loader");
     } catch (error: any) {
       toast.error("Invalid credentials");
     } finally {

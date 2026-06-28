@@ -1,1 +1,58 @@
 @import "tailwindcss";
+
+
+@keyframes floating {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-floating {
+  animation: floating 2.8s ease-in-out infinite;
+}
+
+
+.loader-progress {
+  width: 30%;
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #6366f1,
+    #8b5cf6
+  );
+  animation: progressSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes progressSlide {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+
+@keyframes fadeLoader {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.loader-fade {
+  animation: fadeLoader 0.35s ease-out;
+}

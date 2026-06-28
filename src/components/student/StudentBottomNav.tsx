@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, NotebookTabs, StickyNotePlus, Bell, UserRoundPen, BookOpenCheck } from "lucide-react";
+import {
+  Home,
+  NotebookTabs,
+  StickyNotePlus,
+  Bell,
+  UserRoundPen,
+  BookOpenCheck,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,7 +25,7 @@ export default function StudentBottomNav() {
       icon: <StickyNotePlus />,
       href: "/student/assignments",
     },
-     {
+    {
       name: "Home",
       icon: <Home />,
       href: "/student",
@@ -33,11 +40,6 @@ export default function StudentBottomNav() {
       icon: <Bell />,
       href: "/student/notices",
     },
-    // {
-    //   name: "Profile",
-    //   icon: <UserRoundPen />,
-    //   href: "/student/profile",
-    // },
   ];
 
   return (
@@ -45,8 +47,8 @@ export default function StudentBottomNav() {
       className="
 fixed bottom-4 left-4 right-4 z-50
 rounded-3xl
-border border-white/30
-bg-white/20
+border border-white/40
+bg-white/50
 backdrop-blur-2xl
 shadow-xl
 md:hidden

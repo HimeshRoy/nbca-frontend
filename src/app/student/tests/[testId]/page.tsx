@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { getStudentTestById } from "@/services/test.service";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function StudentTestDetailsPage() {
   const params = useParams();
@@ -29,9 +30,14 @@ export default function StudentTestDetailsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
+     return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }

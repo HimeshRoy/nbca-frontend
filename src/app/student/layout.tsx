@@ -37,7 +37,7 @@ backdrop-blur-xl"
         {children}
       </main>
 
-{!hideBottomNav && <StudentBottomNav />}
+      {!hideBottomNav && <StudentBottomNav />}
     </div>
   );
 }

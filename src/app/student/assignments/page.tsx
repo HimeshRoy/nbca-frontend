@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { getStudentAssignments } from "@/services/assignment.service";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 export default function AssignmentsPage() {
   const router = useRouter();
@@ -35,9 +36,14 @@ export default function AssignmentsPage() {
   }, [assignments, search]);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading Assignments...
+     return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }

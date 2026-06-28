@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import {
   getStudentSubjects,
 } from "@/services/subject.service";
@@ -35,9 +35,14 @@ export default function StudyMaterialsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="p-6">
-        Loading...
+     return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }

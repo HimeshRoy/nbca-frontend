@@ -7,6 +7,7 @@ import { getStudentAssignmentById } from "@/services/assignment.service";
 import { submitAssignment } from "@/services/submission.service";
 import { uploadFile } from "@/services/upload.service";
 import { toast } from "sonner";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 import {
   FileText,
@@ -52,9 +53,14 @@ export default function AssignmentDetailsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
+     return (
+      <div className="min-h-screen flex items-center justify-center">
+        {" "}
+        <DotLottieReact
+          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          loop
+          autoplay
+        />
       </div>
     );
   }
