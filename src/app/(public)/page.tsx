@@ -5,16 +5,18 @@ import WhyParentsTrust from "@/components/home/WhyChooseNBCA";
 import LearningJourney from "@/components/home/LearningJourney";
 import CoreSubjects from "@/components/home/CoreSubjects";
 import CTA from "@/components/home/CTA";
+import { Analytics } from "@vercel/analytics/next";
 
 export default function Home() {
   return (
     <>
-  <Hero />
-  <BoardsSection />
-  <WhyParentsTrust />
-  <LearningJourney />
-  <CoreSubjects />
-  <CTA />
-</>
+      <Hero />
+      <BoardsSection />
+      <WhyParentsTrust />
+      <LearningJourney />
+      <CoreSubjects />
+      <CTA />
+      <Analytics />
+    </>
   );
 }

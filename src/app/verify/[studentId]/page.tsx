@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { verifyStudentCard } from "@/services/verify.service";
@@ -8,11 +7,6 @@ import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
-
-export const metadata: Metadata = {
-  title: "Student Verification | NBCA",
-  description: "Official Student Identity Verification Portal",
-};
 
 export default function VerifyPage() {
   const params = useParams();
@@ -128,15 +122,16 @@ export default function VerifyPage() {
           <div className="rounded-2xl bg-green-50 p-4">
             <p className="text-sm text-green-700">Status</p>
 
-            <p className="font-bold text-green-700">{student.status}</p>
+            <span className="mt-2 inline-flex rounded-full bg-green-600 px-4 py-1 text-sm font-semibold text-white">
+              {student.status}
+            </span>
           </div>
         </div>
+        <p className="mt-4 text-xs text-slate-400">
+          Verified on {new Date().toLocaleString("en-IN")}
+        </p>
 
         <div className="mt-8 border-t pt-5">
-          <p className="mt-4 text-xs text-slate-400">
-            Verified on {new Date().toLocaleString("en-IN")}
-          </p>
-
           <p className="font-bold text-slate-800">North Bengal Cloud Academy</p>
 
           <p className="mt-1 text-sm text-slate-500">
@@ -145,6 +140,15 @@ export default function VerifyPage() {
 
           <p className="mt-4 text-xs text-slate-400">
             © {new Date().getFullYear()} NBCA. All Rights Reserved.
+          </p>
+        </div>
+        <div className="mt-6 rounded-2xl border border-green-200 bg-green-50 p-4 text-left">
+          <h3 className="font-semibold text-green-700">Security Notice</h3>
+
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            This verification confirms that the Student ID belongs to an active
+            student registered with North Bengal Cloud Academy. If any
+            information appears incorrect, please contact the academy.
           </p>
         </div>
       </div>
