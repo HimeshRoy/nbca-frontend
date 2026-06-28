@@ -60,6 +60,7 @@ export default function StudentDashboard() {
                 🎓 {dashboard.student.studentId}
               </div>
             </div>
+            <div>
             <img
               src={
                 dashboard.student.photo ||
@@ -68,6 +69,8 @@ export default function StudentDashboard() {
               alt="Student"
               className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
             />
+            <span className="text-sm text-blue-600">View Profile</span>
+            </div>
           </div>
           </Link>
         </div>

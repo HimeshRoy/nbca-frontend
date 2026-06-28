@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { logout } from "@/lib/auth";
 import { useRouter } from "next/navigation";
-
 import {
   getMyProfile,
   downloadStudentIdCard,
 } from "@/services/studentProfile.service";
 import StudentIdCardModal from "@/components/student/StudentIdCardModal";
+import Link from "next/link";
+import { ImGift } from "react-icons/im";
 
 export default function StudentProfilePage() {
   const router = useRouter();
@@ -75,12 +76,25 @@ export default function StudentProfilePage() {
       <div className="mx-auto max-w-4xl">
         <div className="rounded-[35px] bg-white p-8 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
           <div className="flex flex-col items-center">
-            <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-4xl font-bold text-white">
-              {profile.name
-                ?.split(" ")
-                .map((word: string) => word[0])
-                .join("")
-                .slice(0, 2)}
+            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-4xl font-bold text-white">
+              {profile.photo ? (
+                <img
+                  src={profile.photo}
+                  alt={profile.name}
+                  className="h-full w-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              ) : (
+                profile.name
+                  ?.trim()
+                  .split(/\s+/)
+                  .map((word: string) => word[0])
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase()
+              )}
             </div>
 
             <h1 className="mt-6 text-3xl font-bold text-slate-800">
@@ -113,7 +127,7 @@ export default function StudentProfilePage() {
               <p className="text-sm text-slate-500">Mobile</p>
 
               <p className="mt-1 font-semibold">
-                {profile.mobile || "Not Available"}
+                {profile.phone || "Not Available"}
               </p>
             </div>
 
@@ -181,12 +195,17 @@ export default function StudentProfilePage() {
         </div>
         <div className=" p-3">
           <div className="mt-6 grid grid-cols-2 gap-4">
-            <button className="w-full rounded-2xl py-3 bg-blue-600 font-semibold text-white transition hover:bg-blue-700">
+            <Link
+              className=" text-center w-full rounded-2xl py-3 bg-blue-600 font-semibold text-white transition hover:bg-blue-700"
+              href={"/student/profile/edit"}
+            >
               Update Profile
-            </button>
+            </Link>
 
-            <button className="w-full rounded-2xl py-3 bg-red-600 font-semibold text-white transition hover:bg-red-700"
-            onClick={handleLogout}>
+            <button
+              className="w-full rounded-2xl py-3 bg-red-600 font-semibold text-white transition hover:bg-red-700"
+              onClick={handleLogout}
+            >
               Logout
             </button>
           </div>
