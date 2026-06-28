@@ -8,6 +8,11 @@ import { MdVerified } from "react-icons/md";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 
+export const metadata = {
+  title: "Student Verification | NBCA",
+  description: "Official Student Identity Verification Portal",
+};
+
 export default function VerifyPage() {
   const params = useParams();
 
@@ -127,16 +132,18 @@ export default function VerifyPage() {
         </div>
 
         <div className="mt-8 border-t pt-5">
-          <p className="font-semibold text-slate-700">
-            North Bengal Cloud Academy
+          <p className="mt-4 text-xs text-slate-400">
+            Verified on {new Date().toLocaleString("en-IN")}
           </p>
 
+          <p className="font-bold text-slate-800">North Bengal Cloud Academy</p>
+
           <p className="mt-1 text-sm text-slate-500">
-            Student Identity Verification Portal
+            Official Student Verification Portal
           </p>
 
           <p className="mt-4 text-xs text-slate-400">
-            Verified on {new Date().toLocaleString("en-IN")}
+            © {new Date().getFullYear()} NBCA. All Rights Reserved.
           </p>
         </div>
       </div>
