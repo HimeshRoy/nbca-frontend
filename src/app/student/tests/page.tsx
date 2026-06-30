@@ -92,7 +92,11 @@ export default function StudentTestsPage() {
 
         {availableTests.length === 0 ? (
           <div className="mt-8 rounded-[30px] bg-white p-8 text-center shadow-[15px_15px_40px_#d9d9d9,-15px_-15px_40px_#ffffff]">
-            <div className="text-5xl">📝</div>
+            <div className="text-5xl"><DotLottieReact
+      src="https://lottie.host/90566b91-0585-4a17-aa1f-d9834142cbb1/CylrBEfNPK.lottie"
+      loop
+      autoplay
+    /></div>
 
             <h2 className="mt-4 text-xl font-bold">No Available Tests</h2>
 

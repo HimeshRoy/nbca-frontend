@@ -83,6 +83,10 @@ export default function StudentLiveClassesPage() {
 
       {classes.length === 0 ? (
         <div className="rounded-[25px] bg-white p-6 text-center text-slate-500 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
+          <DotLottieReact
+      src="https://lottie.host/cec89200-ef2e-4cc2-b4da-4bd7cc8cd2da/1aK0L4joYM.lottie"
+      stateMachineId="StateMachine1"
+    />
           No classes available.
         </div>
       ) : (
@@ -199,15 +203,13 @@ export default function StudentLiveClassesPage() {
   return (
     <div className="min-h-screen p-4 pb-24">
       <div className="mx-auto max-w-5xl">
-        <div className="rounded-[35px] bg-white p-8 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
           <h1 className="text-3xl font-bold text-slate-800">Live Classes</h1>
 
           <p className="mt-2 text-slate-500">
             Join your scheduled live classes.
           </p>
-        </div>
 
-        {renderSection("🔴 Live Classes", liveNow)}
+        {renderSection("🟢 Live Classes", liveNow)}
 
         {renderSection("🟡 Upcoming Classes", upcoming)}
 
