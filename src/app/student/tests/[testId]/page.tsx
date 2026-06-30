@@ -34,7 +34,7 @@ export default function StudentTestDetailsPage() {
       <div className="min-h-screen flex items-center justify-center">
         {" "}
         <DotLottieReact
-          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
           loop
           autoplay
         />

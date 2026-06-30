@@ -37,7 +37,7 @@ export default function StudentDashboard() {
       <div className="min-h-screen flex items-center justify-center">
         {" "}
         <DotLottieReact
-          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
           loop
           autoplay
         />
@@ -72,7 +72,7 @@ export default function StudentDashboard() {
                   🎓 {dashboard.student.studentId}
                 </div>
               </div>
-              <div>
+              <div className="text-center">
                 <img
                   src={
                     dashboard.student.photo ||
@@ -81,7 +81,7 @@ export default function StudentDashboard() {
                   alt="Student"
                   className="h-16 w-16 rounded-full border-4 border-violet-300 object-cover"
                 />
-                <span className="text-sm text-blue-600 text-center">
+                <span className="text-xs text-blue-600 text-center">
                   View Profile
                 </span>
               </div>
@@ -180,9 +180,15 @@ export default function StudentDashboard() {
 
           {dashboard.upcomingClasses.length === 0 ? (
             <div className="rounded-[30px] bg-white p-8 text-center shadow-[15px_15px_40px_#d9d9d9,-15px_-15px_40px_#ffffff]">
-              <div className="text-5xl">🎥</div>
+              <div className="w-full">
+                <DotLottieReact
+                  src="https://lottie.host/cdd4c551-8272-448b-a1a0-ceeec3b4c10f/asQLKY49sp.lottie"
+                  loop
+                  autoplay
+                />
+              </div>
 
-              <h3 className="mt-4 text-lg font-semibold">
+              <h3 className="text-lg font-semibold">
                 No Upcoming Classes
               </h3>
 

@@ -40,7 +40,7 @@ export default function AssignmentsPage() {
       <div className="min-h-screen flex items-center justify-center">
         {" "}
         <DotLottieReact
-          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
           loop
           autoplay
         />
@@ -49,7 +49,7 @@ export default function AssignmentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-blue-50 to-purple-100 p-4 pb-24 md:p-8">
+    <div className="min-h-screen p-4 pb-24 md:p-8">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-3xl font-bold">Assignments</h1>
 

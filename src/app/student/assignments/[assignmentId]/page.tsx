@@ -53,11 +53,11 @@ export default function AssignmentDetailsPage() {
   }, []);
 
   if (loading) {
-     return (
+    return (
       <div className="min-h-screen flex items-center justify-center">
         {" "}
         <DotLottieReact
-          src="https://lottie.host/76c6039e-b54f-404a-a86e-c59b4cd8f120/YjiU8gWpwg.lottie"
+          src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
           loop
           autoplay
         />
@@ -125,6 +125,7 @@ export default function AssignmentDetailsPage() {
   const diffTime = dueDate.getTime() - today.getTime();
 
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const showDueStatus = assignment.status !== "SUBMITTED";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-blue-50 to-purple-100 p-4 pb-24">
@@ -157,27 +158,27 @@ export default function AssignmentDetailsPage() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <div className="rounded-2xl bg-slate-100 px-4 py-3">
-              <p className="text-xs text-slate-500">Due Date</p>
-
-              <p className="font-semibold">{dueDate.toLocaleDateString()}</p>
-
-              <p
-                className={`mt-2 text-sm font-semibold
-
-      ${
-        diffDays < 0
-          ? "text-red-600"
-          : diffDays === 0
-            ? "text-orange-600"
-            : "text-green-600"
-      }`}
-              >
-                {diffDays < 0
-                  ? `🔴 Overdue by ${Math.abs(diffDays)} day${Math.abs(diffDays) > 1 ? "s" : ""}`
-                  : diffDays === 0
-                    ? "⚠️ Due Today"
-                    : `⏳ Due in ${diffDays} day${diffDays > 1 ? "s" : ""}`}
-              </p>
+              <span className="text-xs text-slate-500">Due Date</span>{" "}
+              <span className="font-semibold">
+                {dueDate.toLocaleDateString()}
+              </span>
+              {showDueStatus && (
+                <p
+                  className={`mt-2 text-sm font-semibold ${
+                    diffDays < 0
+                      ? "text-red-600"
+                      : diffDays === 0
+                        ? "text-orange-600"
+                        : "text-green-600"
+                  }`}
+                >
+                  {diffDays < 0
+                    ? `🔴 Overdue by ${Math.abs(diffDays)} day${Math.abs(diffDays) > 1 ? "s" : ""}`
+                    : diffDays === 0
+                      ? "⚠️ Due Today"
+                      : `⏳ Due in ${diffDays} day${diffDays > 1 ? "s" : ""}`}
+                </p>
+              )}
             </div>
 
             <div
@@ -258,24 +259,38 @@ export default function AssignmentDetailsPage() {
                 View Submission
               </a>
             </div>
+          ) : assignment.isOverdue ? (
+            <div className="mt-6 rounded-3xl bg-red-100 p-6">
+              <h3 className="text-lg font-bold text-red-700">
+                🚫 Submission Closed
+              </h3>
+
+              <p className="mt-2 text-red-700">
+                The submission deadline has passed.
+              </p>
+
+              <p className="mt-2 text-sm text-red-600">
+                You can no longer submit this assignment.
+              </p>
+            </div>
           ) : (
             <>
               <label
                 className="
-          mt-6
-          flex
-          cursor-pointer
-          flex-col
-          items-center
-          justify-center
-          rounded-[30px]
-          border-2
-          border-dashed
-          border-violet-300
-          p-10
-          transition
-          hover:bg-violet-50
-        "
+        mt-6
+        flex
+        cursor-pointer
+        flex-col
+        items-center
+        justify-center
+        rounded-[30px]
+        border-2
+        border-dashed
+        border-violet-300
+        p-10
+        transition
+        hover:bg-violet-50
+      "
               >
                 <div className="text-6xl">📂</div>
 
@@ -283,7 +298,7 @@ export default function AssignmentDetailsPage() {
                   Choose Assignment File
                 </h3>
 
-                <p className="mt-2 text-slate-500 text-center">
+                <p className="mt-2 text-center text-slate-500">
                   PDF, DOCX, JPG, PNG
                 </p>
 
@@ -300,13 +315,11 @@ export default function AssignmentDetailsPage() {
               </label>
 
               {selectedFile && (
-                <div className="mt-5 flex items-center justify-between rounded-2xl bg-violet-50 gap-2 p-4 text-sm">
+                <div className="mt-5 flex items-center justify-between gap-2 rounded-2xl bg-violet-50 p-4 text-sm">
                   <div>
-                    <p className="font-semibold text-sm">
-                      📄 {selectedFile.name}
-                    </p>
+                    <p className="font-semibold">📄 {selectedFile.name}</p>
 
-                    <p className="text-sm text-slate-500">
+                    <p className="text-slate-500">
                       {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -314,28 +327,29 @@ export default function AssignmentDetailsPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedFile(null)}
-                    className="rounded-full text-sm bg-red-100 px-3 py-2 text-red-600 transition hover:bg-red-200"
+                    className="rounded-full bg-red-100 px-3 py-2 text-sm text-red-600 transition hover:bg-red-200"
                   >
                     ✕
                   </button>
                 </div>
               )}
+
               <button
                 onClick={handleSubmit}
                 disabled={!selectedFile || submitting}
                 className="
-    mt-6
-    w-full
-    rounded-2xl
-    bg-gradient-to-r
-    from-violet-600
-    to-indigo-600
-    py-4
-    font-semibold
-    text-white
-    disabled:cursor-not-allowed
-    disabled:opacity-50
-  "
+        mt-6
+        w-full
+        rounded-2xl
+        bg-gradient-to-r
+        from-violet-600
+        to-indigo-600
+        py-4
+        font-semibold
+        text-white
+        disabled:cursor-not-allowed
+        disabled:opacity-50
+      "
               >
                 {submitting ? "Submitting..." : "Submit Assignment"}
               </button>
