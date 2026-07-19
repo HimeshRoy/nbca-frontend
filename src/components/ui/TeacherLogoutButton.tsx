@@ -11,9 +11,10 @@ export default function TeacherLogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="w-full rounded-lg px-4 py-3 bg-red-500 felx justify-center items-center hover:cursor-pointer"
+      className="group flex w-full items-center justify-center gap-2.5 rounded-xl border border-rose-100 bg-rose-50 px-4 py-3 text-sm font-bold text-rose-600 transition-all duration-200 hover:bg-rose-300 hover:text-white hover:shadow-md hover:shadow-rose-200/50 cursor-pointer"
     >
-      <span className="flex gap-3 text-center justify-center items-center">Logout <LogOut /></span>
+      <span>Logout</span>
+      <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
     </button>
   );
 }

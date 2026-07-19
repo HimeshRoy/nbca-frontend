@@ -1,78 +1,39 @@
-import {
-  Users,
-  ClipboardCheck,
-  BarChart3,
-  ShieldCheck,
-} from "lucide-react";
+import { Users, ClipboardCheck, BarChart3, ShieldCheck } from "lucide-react";
 
 const trustItems = [
-  {
-    icon: Users,
-    title: "Experienced Teachers",
-    description:
-      "Learn from dedicated teachers focused on conceptual understanding.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Regular Assessments",
-    description:
-      "Assignments and tests help students track learning consistently.",
-  },
-  {
-    icon: BarChart3,
-    title: "Performance Tracking",
-    description:
-      "Monitor attendance, test scores and academic progress easily.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Safe Learning Environment",
-    description:
-      "Structured and distraction-free online learning experience.",
-  },
+  { icon: Users, title: "Expert Faculty", desc: "Learn from dedicated, experienced teachers focused entirely on deep conceptual understanding." },
+  { icon: ClipboardCheck, title: "Consistent Testing", desc: "Regular assignments and timed tests help students and parents track learning consistently." },
+  { icon: BarChart3, title: "Analytics & Tracking", desc: "Monitor attendance, test scores, and overall academic progress through a modern dashboard." },
+  { icon: ShieldCheck, title: "Safe Environment", desc: "A highly structured, distraction-free online learning experience built for student success." },
 ];
 
-export default function WhyParentsTrust() {
+export default function WhyChooseNBCA() {
   return (
-    <section className="py-20 bg-white">
-      <div className="mx-auto max-w-7xl px-4">
-
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Why To Trust NBCA
-          </h2>
-
-          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-            Built to support students with structured learning,
-            progress monitoring and consistent academic guidance.
+    <section className="bg-slate-50 py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <h2 className="text-3xl font-black text-slate-900 md:text-4xl tracking-tight">Why Choose Us</h2>
+          <p className="mt-4 text-lg text-slate-500">
+            Built from the ground up to support students with structured learning, constant monitoring, and robust academic guidance.
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {trustItems.map((item) => {
+          {trustItems.map((item, idx) => {
             const Icon = item.icon;
-
             return (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-gray-200 p-6 hover:shadow-xl transition"
-              >
-                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                  <Icon className="h-6 w-6 text-blue-700" />
+              <div key={idx} className="rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:shadow-lg hover:-translate-y-1 hover:border-blue-200 group">
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                  <Icon className="h-6 w-6" />
                 </div>
-
-                <h3 className="mt-5 text-xl font-semibold text-gray-900">
-                  {item.title}
-                </h3>
-
-                <p className="mt-3 text-gray-600 text-sm leading-relaxed">
-                  {item.description}
+                <h3 className="text-lg font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-sm font-medium text-slate-500 leading-relaxed">
+                  {item.desc}
                 </p>
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );

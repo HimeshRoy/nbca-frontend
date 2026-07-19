@@ -14,6 +14,7 @@ import {
   FaBullhorn,
   FaVideo,
   FaFileAlt,
+  FaClock,
   FaUserPlus,
 } from "react-icons/fa";
 
@@ -21,6 +22,7 @@ import Link from "next/link";
 
 export default function AdminDashboard() {
   const [date, setDate] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState<string>("");
   const [stats, setStats] = useState({
     totalStudents: 0,
     totalTeachers: 0,
@@ -31,6 +33,21 @@ export default function AdminDashboard() {
     totalNotices: 0,
     upcomingLiveClasses: 0,
   });
+
+   useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options: Intl.DateTimeFormatOptions = { 
+        weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+      };
+      setCurrentTime(now.toLocaleString('en-US', options).replace(" at ", " | "));
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -47,11 +64,21 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="p-5">
-      <div className="bg-blue-950 p-5 rounded-2xl">
+    <div>
+      <div className="bg-blue-950 p-5 rounded-2xl flex items-center justify-between">
+        <div>
         <h1 className="text-3xl font-bold text-white">Dashboard</h1>
 
         <p className="mt-2 text-slate-300">Welcome back Admin</p>
+        </div>
+        <div>
+        {currentTime && (
+          <div className="mt-4 flex items-center gap-2 bg-slate-800/60 w-fit px-4 py-2 rounded-full border border-slate-700/50">
+            <FaClock className="text-slate-300" />
+            <p className=" text-slate-200 font-medium">{currentTime}</p>
+          </div>
+        )}
+        </div>
       </div>
       <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <div className="rounded-xl bg-white p-6 shadow">
@@ -103,55 +130,59 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        {/* Quick Actions */}
-        <div className="rounded-xl bg-white p-6 shadow">
-          <h2 className="mb-4 text-2xl font-bold">Quick Actions</h2>
-
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <h2 className="mb-4 text-lg font-bold text-slate-800">Quick Actions</h2>
           <div className="grid gap-4 md:grid-cols-2">
-            <Link
-              href="/admin/teachers"
-              className="rounded-xl bg-white p-5 shadow transition hover:shadow-lg flex flex-col justify-center items-center border border-blue-300"
-            >
-              <FaChalkboardTeacher className="mb-3 text-3xl text-green-600" />
-              <h3 className="font-semibold">Add Teacher</h3>
+            <Link href="/admin/teachers" className="rounded-2xl bg-white p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 mt-0.5">
+                <FaChalkboardTeacher size={18} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Add Teacher</h3>
+                <p className="text-xs text-slate-500 mt-1">Register new faculty members</p>
+              </div>
             </Link>
 
-            <Link
-              href="/admin/classes"
-              className="rounded-xl bg-white p-5 shadow transition hover:shadow-lg flex flex-col justify-center items-center border border-blue-300"
-            >
-              <FaSchool className="mb-3 text-3xl text-purple-600" />
-              <h3 className="font-semibold">Add Class</h3>
+            <Link href="/admin/classes" className="rounded-2xl bg-white p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mt-0.5">
+                <FaSchool size={18} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Add Class</h3>
+                <p className="text-xs text-slate-500 mt-1">Create new classroom sections</p>
+              </div>
             </Link>
 
-            <Link
-              href="/admin/subjects"
-              className="rounded-xl bg-white p-5 shadow transition hover:shadow-lg flex flex-col justify-center items-center border border-blue-300"
-            >
-              <FaBook className="mb-3 text-3xl text-orange-600" />
-              <h3 className="font-semibold">Add Subject</h3>
+            <Link href="/admin/subjects" className="rounded-2xl bg-white p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-orange-600 mt-0.5">
+                <FaBook size={18} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Add Subject</h3>
+                <p className="text-xs text-slate-500 mt-1">Configure curriculum subjects</p>
+              </div>
             </Link>
 
-            <Link
-              href="/admin/notices"
-              className="rounded-xl bg-white p-5 shadow transition hover:shadow-lg flex flex-col justify-center items-center border border-blue-300"
-            >
-              <FaBullhorn className="mb-3 text-3xl text-red-600" />
-              <h3 className="font-semibold">Create Notice</h3>
+            <Link href="/admin/notices" className="rounded-2xl bg-white p-5 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex items-start gap-4">
+              <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600 mt-0.5">
+                <FaBullhorn size={18} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-sm">Publish Notice</h3>
+                <p className="text-xs text-slate-500 mt-1">Announce updates to everyone</p>
+              </div>
             </Link>
           </div>
         </div>
 
-        {/* Calendar */}
-        <div className="rounded-xl bg-white p-4 shadow">
-          <h2 className="mb-4 text-2xl font-bold">Academic Calendar</h2>
-
-          <div className="flex justify-center w-full">
+        <div className="lg:col-span-1">
+          <h2 className="mb-4 text-lg font-bold text-slate-800">Academic Calendar</h2>
+          <div className="rounded-2xl bg-white p-5 shadow-sm border border-slate-100 flex justify-center items-center">
             <Calendar
               value={date}
               onChange={(value) => setDate(value as Date)}
-              className={"w-full rounded-xl p-4"}
+              className="w-full border-none !font-sans"
             />
           </div>
         </div>

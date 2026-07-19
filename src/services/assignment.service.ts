@@ -48,3 +48,15 @@ export const getStudentAssignmentById = async (id: string) => {
 
   return response.data;
 };
+
+export const evaluateSubmission = async (
+  submissionId: string,
+  payload: { marks: number; remarks?: string },
+) => {
+  const response = await api.patch(
+    `/submissions/${submissionId}/evaluate`,
+    payload,
+    getHeaders(),
+  );
+  return response.data;
+};

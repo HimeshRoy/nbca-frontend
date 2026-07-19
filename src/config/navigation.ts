@@ -12,10 +12,6 @@ export const navLinks = [
     href: "/courses",
   },
   {
-    name: "Teachers",
-    href: "/teachers",
-  },
-  {
     name: "Contact",
     href: "/contact",
   },
