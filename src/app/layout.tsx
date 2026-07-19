@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
-
 export const metadata: Metadata = {
   title:
     "North Bengal Cloud Academy - Online Classes for Class 10 (CBSE, ICSE & WBBSE)",
@@ -15,6 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/logo.png" />
+      </head>
       <body>{children}
         <Toaster position="top-center" richColors closeButton />
       </body>
