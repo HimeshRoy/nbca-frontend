@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  BookOpen, 
-  FileText, 
-  Video, 
-  Trophy, 
-  Bell, 
-  UserCircle 
+import {
+  LayoutDashboard,
+  BookOpen,
+  FileText,
+  Video,
+  Trophy,
+  Bell,
+  UserCircle,
 } from "lucide-react";
 
 export default function StudentSidebar() {
@@ -55,8 +55,6 @@ export default function StudentSidebar() {
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] flex-col border-r border-slate-200 bg-white">
-      
-      {/* Brand Header */}
       <div className="p-8">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-md shadow-violet-200 p-1">
@@ -76,7 +74,9 @@ export default function StudentSidebar() {
       <nav className="flex-1 px-4 py-2 overflow-y-auto">
         <div className="space-y-1.5">
           {menus.map((item) => {
-            const isActive = pathname === item.href || (item.href !== "/student" && pathname.startsWith(item.href));
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/student" && pathname.startsWith(item.href));
 
             return (
               <Link
@@ -84,16 +84,19 @@ export default function StudentSidebar() {
                 href={item.href}
                 className={`
                   group flex items-center gap-3.5 rounded-2xl px-4 py-3.5 font-bold transition-all duration-200
-                  ${isActive
-                    ? "bg-violet-50 text-violet-700"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                  ${
+                    isActive
+                      ? "bg-violet-50 text-violet-700"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
                   }
                 `}
               >
-                <div className={`
+                <div
+                  className={`
                   transition-transform duration-200 
                   ${isActive ? "scale-110" : "group-hover:scale-110"}
-                `}>
+                `}
+                >
                   {item.icon}
                 </div>
                 <span>{item.label}</span>
