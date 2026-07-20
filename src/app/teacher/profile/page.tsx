@@ -270,7 +270,7 @@ export default function ProfilePage() {
               <div className="flex flex-wrap gap-2">
                 {profile.classes.map((cls: any) => (
                   <span key={cls.id} className="rounded-lg bg-blue-50 border border-blue-100 px-3 py-1.5 text-xs font-bold text-blue-700">
-                    {cls.name} {cls.board?.name}
+                    {cls.name} - {cls.board?.name}
                   </span>
                 ))}
               </div>
