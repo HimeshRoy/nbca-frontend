@@ -16,9 +16,9 @@ export default function Footer() {
               North Bengal Cloud Academy provides structured, premium online learning for CBSE, ICSE, and WBBSE students, empowering the next generation of achievers.
             </p>
             <div className="mt-6 flex gap-4">
-              <a href="#" className="rounded-full bg-slate-900 p-2.5 text-slate-400 transition-colors hover:bg-blue-600 hover:text-white"><FaFacebook className="h-4 w-4" /></a>
+              <a href="https://www.facebook.com/nbca.co.in" className="rounded-full bg-slate-900 p-2.5 text-slate-400 transition-colors hover:bg-blue-600 hover:text-white"><FaFacebook className="h-4 w-4" /></a>
               <a href="#" className="rounded-full bg-slate-900 p-2.5 text-slate-400 transition-colors hover:bg-blue-600 hover:text-white"><FaTwitter className="h-4 w-4" /></a>
-              <a href="#" className="rounded-full bg-slate-900 p-2.5 text-slate-400 transition-colors hover:bg-blue-600 hover:text-white"><FaInstagram className="h-4 w-4" /></a>
+              <a href="https://www.instagram.com/nbca.co.in/" className="rounded-full bg-slate-900 p-2.5 text-slate-400 transition-colors hover:bg-blue-600 hover:text-white"><FaInstagram className="h-4 w-4" /></a>
             </div>
           </div>
 
