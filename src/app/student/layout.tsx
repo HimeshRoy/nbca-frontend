@@ -1,43 +1,57 @@
 "use client";
 
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import StudentBottomNav from "@/components/student/StudentBottomNav";
 import StudentSidebar from "@/components/student/StudentSidebar";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 export default function StudentLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (!token) {
-      window.location.href = "/login";
+      router.push("/login");
     }
-  }, []);
-
-  const pathname = usePathname();
+  }, [router]);
 
   const hideBottomNav =
     pathname.includes("/student/tests/") && pathname.includes("/attempt");
 
   return (
-    <div className="min-h-screen">
+    <div className="relative min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-violet-200 selection:text-violet-900 overflow-x-hidden flex">
+      
       <StudentSidebar />
 
       <main
-        className="pb-24 md:pb-6 md:ml-72 bg-gradient-to-r
-from-indigo-100/90
-via-blue-50/90
-to-purple-100/90
-backdrop-blur-xl"
+        className={`
+          flex-1
+          w-full
+          min-h-screen
+          transition-all duration-300 ease-in-out
+          ${hideBottomNav ? "pb-6" : "pb-24"} 
+          md:pb-8 
+          md:ml-72 
+          md:px-6
+          md:pt-6
+        `}
       >
-        {children}
+        <div className="mx-auto w-full max-w-7xl h-full animate-in fade-in duration-500">
+          {children}
+        </div>
       </main>
 
-      {!hideBottomNav && <StudentBottomNav />}
+      {!hideBottomNav && (
+        <div className="md:hidden block">
+          <StudentBottomNav />
+        </div>
+      )}
+      
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   FaHome, FaGraduationCap, FaSchool, FaChalkboard, 
   FaBook, FaUsers, FaUserTie, FaBullhorn , FaCalendarAlt
 } from "react-icons/fa";
+import { Toaster } from "react-hot-toast";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -25,6 +26,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex min-h-screen bg-slate-50">
+      <Toaster
+  position="top-center"
+  reverseOrder={false}
+/>
       <aside className="hidden md:flex w-64 h-screen bg-slate-900 text-slate-300 flex-col fixed left-0 top-0 rounded-br-3xl rounded-tr-3xl shadow-xl z-50">
         <div className="p-6 border-b border-slate-800">
           <div className="flex items-center gap-4">

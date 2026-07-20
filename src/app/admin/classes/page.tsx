@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import {
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaTimes,
+  FaChalkboard,
+  FaLayerGroup
+} from "react-icons/fa";
 
 import {
   getClasses,
@@ -14,13 +23,17 @@ import { getBoards } from "@/services/board.service";
 export default function ClassesPage() {
   const [classes, setClasses] = useState<any[]>([]);
   const [boards, setBoards] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
+  const defaultForm = {
     name: "",
     boardId: "",
-  });
+  };
+  const [formData, setFormData] = useState(defaultForm);
 
   useEffect(() => {
     fetchClasses();
@@ -29,10 +42,14 @@ export default function ClassesPage() {
 
   const fetchClasses = async () => {
     try {
+      setLoading(true);
       const result = await getClasses();
       setClasses(result.data);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to fetch classes");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,271 +59,227 @@ export default function ClassesPage() {
       setBoards(result.data);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to fetch boards");
     }
   };
 
-  const resetForm = () => {
-    setEditingId(null);
-
-    setFormData({
-      name: "",
-      boardId: "",
-    });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      if (editingId) {
-        await updateClass(editingId, formData);
-      } else {
-        await createClass(formData);
-      }
-
-      await fetchClasses();
-
-      setShowModal(false);
-
-      resetForm();
-    } catch (error) {
-      console.error(error);
+  const handleOpenModal = (item?: any) => {
+    if (item) {
+      setEditingId(item.id);
+      setFormData({
+        name: item.name,
+        boardId: item.boardId || "",
+      });
+    } else {
+      setEditingId(null);
+      setFormData(defaultForm);
     }
-  };
-
-  const handleEdit = (item: any) => {
-    setEditingId(item.id);
-
-    setFormData({
-      name: item.name,
-      boardId: item.boardId,
-    });
-
     setShowModal(true);
   };
 
-  const handleDelete = async (
-    id: string
-  ) => {
-    const confirmed =
-      window.confirm(
-        "Delete this class?"
-      );
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingId(null);
+    setFormData(defaultForm);
+  };
 
+  const handleSubmit = async () => {
+    if (!formData.name || !formData.boardId) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      if (editingId) {
+        await updateClass(editingId, formData);
+        toast.success("Class updated successfully");
+      } else {
+        await createClass(formData);
+        toast.success("Class created successfully");
+      }
+      
+      await fetchClasses();
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to save class");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmed = window.confirm("Are you sure you want to delete this class? This action cannot be undone.");
     if (!confirmed) return;
 
     try {
       await deleteClass(id);
-
+      toast.success("Class deleted successfully");
       await fetchClasses();
     } catch (error) {
       console.error(error);
+      toast.error("Failed to delete class");
     }
   };
 
   return (
-    <div className="p-6">
-
-      <div className="mb-8 flex items-center justify-between">
-
-        <div>
-
-          <h1 className="text-3xl font-bold">
-            Classes
-          </h1>
-
-          <p className="text-slate-500">
-            Manage Classes
-          </p>
-
+    <div className="space-y-6">
+  
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl">
+            <FaChalkboard />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">Classes</h1>
+            <p className="text-sm font-medium text-slate-500">Manage institution classrooms and grades</p>
+          </div>
         </div>
-
         <button
-          onClick={() => {
-            resetForm();
-            setShowModal(true);
-          }}
-          className="rounded-lg bg-blue-700 px-4 py-2 text-white"
+          onClick={() => handleOpenModal()}
+          className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5"
         >
-          Add Class
+          <FaPlus /> Add Class
         </button>
-
       </div>
 
-      <div className="overflow-hidden rounded-xl bg-white shadow">
-
-        <table className="w-full">
-
-          <thead className="bg-slate-100">
-
-            <tr>
-
-              <th className="p-4 text-left">
-                Class Name
-              </th>
-
-              <th className="p-4 text-left">
-                Board
-              </th>
-
-              <th className="p-4 text-left">
-                Actions
-              </th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            {classes.length === 0 ? (
-              <tr>
-
-                <td
-                  colSpan={3}
-                  className="p-6 text-center"
-                >
-                  No Classes Found
-                </td>
-
+      <div className="rounded-3xl bg-white border border-slate-100 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100">
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider w-1/2">Class Name</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Associated Board</th>
+                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
               </tr>
-            ) : (
-              classes.map((item) => (
-                <tr
-                  key={item.id}
-                  className="border-t"
-                >
-
-                  <td className="p-4">
-                    {item.name}
-                  </td>
-
-                  <td className="p-4">
-                    {item.board?.name}
-                  </td>
-
-                  <td className="p-4">
-
-                    <div className="flex gap-2">
-
-                      <button
-                        onClick={() =>
-                          handleEdit(item)
-                        }
-                        className="rounded bg-yellow-500 px-3 py-1 text-white"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          handleDelete(
-                            item.id
-                          )
-                        }
-                        className="rounded bg-red-600 px-3 py-1 text-white"
-                      >
-                        Delete
-                      </button>
-
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {loading ? (
+                <tr>
+                  <td colSpan={3} className="px-6 py-12 text-center">
+                    <div className="flex flex-col items-center justify-center gap-3 text-slate-400">
+                      <div className="w-8 h-8 border-4 border-slate-200 border-t-blue-600 rounded-full animate-spin"></div>
+                      <p className="text-sm font-medium">Loading classes...</p>
                     </div>
-
                   </td>
-
                 </tr>
-              ))
-            )}
-
-          </tbody>
-
-        </table>
-
+              ) : classes.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="px-6 py-12 text-center">
+                    <div className="flex flex-col items-center justify-center gap-2 text-slate-400">
+                      <FaChalkboard className="text-4xl mb-2 text-slate-300" />
+                      <p className="text-base font-semibold text-slate-600">No classes found</p>
+                      <p className="text-sm">Click 'Add Class' to create your first classroom.</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                classes.map((item) => (
+                  <tr key={item.id} className="hover:bg-slate-50/50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <p className="font-bold text-slate-800 text-lg">{item.name}</p>
+                    </td>
+                    <td className="px-6 py-4">
+                      {item.board?.name ? (
+                        <span className="inline-flex items-center gap-2 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 border border-slate-200">
+                          <FaLayerGroup className="text-slate-400" />
+                          {item.board.name}
+                        </span>
+                      ) : (
+                        <span className="text-sm italic text-slate-400">Unassigned</span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => handleOpenModal(item)}
+                          className="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"
+                          title="Edit Class"
+                        >
+                          <FaEdit size={14} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="p-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-colors"
+                          title="Delete Class"
+                        >
+                          <FaTrash size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-
-          <div className="w-full max-w-md rounded-xl bg-white p-6">
-
-            <h2 className="mb-4 text-2xl font-bold">
-
-              {editingId
-                ? "Edit Class"
-                : "Create Class"}
-
-            </h2>
-
-            <div className="space-y-4">
-
-              <input
-                type="text"
-                placeholder="Class Name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    name: e.target.value,
-                  })
-                }
-                className="w-full rounded border p-3"
-              />
-
-              <select title="board"
-                value={formData.boardId}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    boardId:
-                      e.target.value,
-                  })
-                }
-                className="w-full rounded border p-3"
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-3xl bg-white shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+  
+            <div className="bg-slate-50 border-b border-slate-100 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-800">
+                {editingId ? "Edit Class" : "Create Class"}
+              </h2>
+              <button 
+                onClick={handleCloseModal}
+                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-full transition-colors"
               >
-
-                <option value="">
-                  Select Board
-                </option>
-
-                {boards.map(
-                  (board: any) => (
-                    <option
-                      key={board.id}
-                      value={board.id}
-                    >
-                      {board.name}
-                    </option>
-                  )
-                )}
-
-              </select>
-
-              <div className="flex gap-3">
-
-                <button
-                  onClick={() =>
-                    setShowModal(false)
-                  }
-                  className="flex-1 rounded border py-3"
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={handleSubmit}
-                  className="flex-1 rounded bg-blue-700 py-3 text-white"
-                >
-                  {editingId
-                    ? "Update Class"
-                    : "Create Class"}
-                </button>
-
-              </div>
-
+                <FaTimes />
+              </button>
             </div>
 
-          </div>
+            <div className="p-6 space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Class Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Class 10th - Section A"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
 
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Educational Board</label>
+                <select
+                  value={formData.boardId}
+                  onChange={(e) => setFormData({ ...formData, boardId: e.target.value })}
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm font-medium text-slate-700 outline-none transition-all focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500 appearance-none"
+                >
+                  <option value="" disabled>Select a Board...</option>
+                  {boards.map((board: any) => (
+                    <option key={board.id} value={board.id}>
+                      {board.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="bg-slate-50 border-t border-slate-100 px-6 py-4 flex gap-3">
+              <button
+                onClick={handleCloseModal}
+                className="flex-1 rounded-xl px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={isSubmitting}
+                onClick={handleSubmit}
+                className="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-blue-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Saving..." : editingId ? "Update Class" : "Create Class"}
+              </button>
+            </div>
+            
+          </div>
         </div>
       )}
-
     </div>
   );
 }

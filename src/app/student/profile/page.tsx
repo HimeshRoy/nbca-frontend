@@ -1,88 +1,97 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { logout } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { logout } from "@/lib/auth";
 import {
   getMyProfile,
   downloadStudentIdCard,
 } from "@/services/studentProfile.service";
 import StudentIdCardModal from "@/components/student/StudentIdCardModal";
-import Link from "next/link";
-import { ImGift } from "react-icons/im";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+import {
+  UserCircle,
+  Mail,
+  Phone,
+  BookOpen,
+  GraduationCap,
+  CalendarClock,
+  User,
+  IdCard,
+  Download,
+  Edit3,
+  LogOut,
+} from "lucide-react";
 
 export default function StudentProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
-
   const [loading, setLoading] = useState(true);
-
   const [openIdCard, setOpenIdCard] = useState(false);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const result = await getMyProfile();
+        setProfile(result.data);
+      } catch (error) {
+        console.error("Failed to load profile:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProfile();
+  }, []);
 
   const handleDownloadIdCard = async () => {
     try {
       const blob = await downloadStudentIdCard();
-
       const fileURL = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
-
       link.href = fileURL;
-
       link.setAttribute("download", "NBCA-ID-Card.pdf");
-
       document.body.appendChild(link);
-
       link.click();
-
       document.body.removeChild(link);
-
       window.URL.revokeObjectURL(fileURL);
     } catch (error) {
       console.error("Failed to download ID Card:", error);
     }
   };
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      try {
-        const result = await getMyProfile();
-
-        setProfile(result.data);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProfile();
-  }, []);
+  const handleLogout = () => {
+    logout();
+    router.replace("/login");
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        {" "}
-        <DotLottieReact
-          src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
-          loop
-          autoplay
-        />
+      <div className="min-h-[80vh] flex flex-col items-center justify-center">
+        <div className="w-64 h-64">
+          <DotLottieReact
+            src="https://lottie.host/8cc70ce1-7bcb-4492-b978-77cde0aad40a/QnHc4gdlQq.lottie"
+            loop
+            autoplay
+          />
+        </div>
+        <p className="mt-4 animate-pulse font-medium text-slate-500">
+          Loading profile...
+        </p>
       </div>
     );
   }
 
-  const handleLogout = () => {
-    logout();
-
-    router.replace("/login");
-  };
-
   return (
-    <div className="min-h-screen p-4 pb-24">
-      <div className="mx-auto max-w-4xl">
-        <div className="rounded-[35px] bg-white p-8 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-          <div className="flex flex-col items-center">
-            <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 text-4xl font-bold text-white">
+    <div className="min-h-screen p-4 md:p-8">
+      <div className="mx-auto max-w-3xl space-y-6">
+        <div className="relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 text-center shadow-sm">
+          <div className="absolute -right-10 -top-10 -z-10 h-40 w-40 rounded-full bg-violet-50 opacity-50" />
+          <div className="absolute -bottom-10 -left-10 -z-10 h-32 w-32 rounded-full bg-blue-50 opacity-50" />
+
+          <div className="relative z-10 flex flex-col items-center">
+            <div className="mb-4 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-violet-600 to-indigo-600 text-3xl font-bold text-white shadow-lg">
               {profile.photo ? (
                 <img
                   src={profile.photo}
@@ -96,125 +105,129 @@ export default function StudentProfilePage() {
                 profile.name
                   ?.trim()
                   .split(/\s+/)
-                  .map((word: string) => word[0])
+                  .map((w: string) => w[0])
                   .join("")
                   .slice(0, 2)
                   .toUpperCase()
               )}
             </div>
 
-            <h1 className="mt-6 text-3xl font-bold text-slate-800">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800">
               {profile.name}
             </h1>
+            <p className="mt-1 text-sm font-bold uppercase tracking-widest text-slate-400">
+              {profile.studentId}
+            </p>
 
-            <p className="mt-2 text-slate-500">{profile.studentId}</p>
-
-            <div className="mt-5 rounded-full bg-violet-100 px-5 py-2 text-sm font-semibold text-violet-700">
-              🎓 Student
+            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-4 py-1.5 text-xs font-bold text-violet-700">
+              <GraduationCap size={16} /> Student
             </div>
           </div>
         </div>
 
-        <div className="mt-6 rounded-[35px] bg-white p-6 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-          <h2 className="text-2xl font-bold text-slate-800">
-            Personal Information
+        <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-slate-800">
+            <UserCircle className="text-violet-500" /> Personal Information
           </h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Email</p>
-
-              <p className="mt-1 font-semibold break-all">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <Mail size={14} /> Email
+              </div>
+              <p className="break-all font-semibold text-slate-700">
                 {profile.email || "Not Available"}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Mobile</p>
-
-              <p className="mt-1 font-semibold">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <Phone size={14} /> Mobile
+              </div>
+              <p className="font-semibold text-slate-700">
                 {profile.phone || "Not Available"}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Board</p>
-
-              <p className="mt-1 font-semibold">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <BookOpen size={14} /> Board
+              </div>
+              <p className="font-semibold text-slate-700">
                 {profile.board?.name || "Not Available"}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Class</p>
-
-              <p className="mt-1 font-semibold">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <GraduationCap size={14} /> Class
+              </div>
+              <p className="font-semibold text-slate-700">
                 {profile.class?.name || "Not Available"}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Academic Session</p>
-
-              <p className="mt-1 font-semibold">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <CalendarClock size={14} /> Session
+              </div>
+              <p className="font-semibold text-slate-700">
                 {profile.academicSession?.name || "Not Available"}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4">
-              <p className="text-sm text-slate-500">Assigned Teacher</p>
-
-              <p className="mt-1 font-semibold">
+            <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <User size={14} /> Assigned Teacher
+              </div>
+              <p className="font-semibold text-slate-700">
                 {profile.teacher?.name || "Not Assigned"}
               </p>
             </div>
           </div>
         </div>
-
-        <div className="mt-6 rounded-[35px] bg-white p-6 shadow-[18px_18px_45px_#d9d9d9,-18px_-18px_45px_#ffffff]">
-          <h2 className="text-2xl font-bold text-slate-800">
-            Student Services
+        <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm md:p-8">
+          <h2 className="mb-6 flex items-center gap-2 text-xl font-bold text-slate-800">
+            <IdCard className="text-blue-500" /> Student Services
           </h2>
 
-          <div className="mt-6 space-y-4">
-            <div className="space-y-4">
-              <button
-                onClick={() => setOpenIdCard(true)}
-                className="w-full rounded-2xl bg-violet-600 px-5 py-4 font-semibold text-white transition hover:bg-violet-700"
-              >
-                View Digital ID Card
-              </button>
-
-              <button
-                onClick={handleDownloadIdCard}
-                className="w-full rounded-2xl bg-slate-200 px-5 py-4 font-semibold text-slate-700 transition hover:bg-slate-300"
-              >
-                ⬇ Download PDF
-              </button>
-            </div>
-            <StudentIdCardModal
-              open={openIdCard}
-              onClose={() => setOpenIdCard(false)}
-              profile={profile}
-            />
-          </div>
-        </div>
-        <div className=" p-3">
-          <div className="mt-6 grid grid-cols-2 gap-4">
-            <Link
-              className=" text-center w-full rounded-2xl py-3 bg-blue-600 font-semibold text-white transition hover:bg-blue-700"
-              href={"/student/profile/edit"}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <button
+              onClick={() => setOpenIdCard(true)}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-violet-600 px-5 py-4 font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-violet-700 hover:shadow-md"
             >
-              Update Profile
-            </Link>
+              <IdCard size={20} /> View Digital ID
+            </button>
 
             <button
-              className="w-full rounded-2xl py-3 bg-red-600 font-semibold text-white transition hover:bg-red-700"
-              onClick={handleLogout}
+              onClick={handleDownloadIdCard}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 font-bold text-slate-700 transition-all hover:-translate-y-0.5 hover:bg-slate-100"
             >
-              Logout
+              <Download size={20} /> Download PDF
             </button>
           </div>
+
+          <StudentIdCardModal
+            open={openIdCard}
+            onClose={() => setOpenIdCard(false)}
+            profile={profile}
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 pt-2">
+          <Link
+            href="/student/profile/edit"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-4 font-bold text-white shadow-sm transition hover:bg-slate-800"
+          >
+            <Edit3 size={18} /> Update Profile
+          </Link>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center justify-center gap-2 rounded-2xl border border-rose-100 bg-rose-50 py-4 font-bold text-rose-600 transition hover:bg-rose-100"
+          >
+            <LogOut size={18} /> Logout
+          </button>
         </div>
       </div>
     </div>
