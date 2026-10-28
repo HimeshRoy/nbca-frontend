@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  getStudentLiveClasses,
-  joinLiveClass,
-} from "@/services/live-class.service";
+import { useRouter } from "next/navigation";
+import { getStudentLiveClasses } from "@/services/live-class.service";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { toast } from "sonner";
 import {
   Video,
   CalendarClock,
@@ -18,32 +15,19 @@ import {
   Calendar,
   Check,
   VideoOff,
-  ExternalLink,
   Loader2,
 } from "lucide-react";
 
 export default function StudentLiveClassesPage() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
   const [liveClasses, setLiveClasses] = useState<any[]>([]);
   const [joiningId, setJoiningId] = useState<string | null>(null);
 
-  const handleJoinClass = async (id: string) => {
-    try {
-      setJoiningId(id);
-      const result = await joinLiveClass(id);
-
-      toast.success(result.data.message);
-      window.open(result.data.meetingLink, "_blank");
-
-      const refreshed = await getStudentLiveClasses();
-      setLiveClasses(refreshed.data);
-    } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message || "Unable to join live class.",
-      );
-    } finally {
-      setJoiningId(null);
-    }
+  const handleJoinClass = (id: string) => {
+    setJoiningId(id);
+    router.push(`/student/live-classes/${id}/classroom`);
   };
 
   useEffect(() => {
@@ -238,7 +222,7 @@ export default function StudentLiveClassesPage() {
                           </>
                         ) : (
                           <>
-                            Join Class <ExternalLink size={18} />
+                            Join Class <Video size={18} />
                           </>
                         )}
                       </button>
