@@ -3,6 +3,7 @@
 import { use, useEffect, useMemo, useState } from "react";
 import { useClassroomEvents } from "@/components/live-classroom/use-classroom-events";
 import ClassroomChat from "@/components/live-classroom/classroom-chat";
+import Whiteboard from "@/components/live-classroom/whiteboard";
 
 import {
   LiveKitRoom,
@@ -223,6 +224,8 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
 
   const [showChat, setShowChat] = useState(false);
 
+  const [showWhiteboard, setShowWhiteboard] = useState(false);
+
   const teacherName = useMemo(() => {
     const teacher = liveClass?.teacher;
 
@@ -406,7 +409,7 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
             VIDEO SECTION
         =================================================== */}
 
-        <section className="flex min-w-0 flex-1 flex-col">
+        <section className="relative flex min-w-0 flex-1 flex-col">
           {showChat && (
             <ClassroomChat
               liveClassId={liveClass?.id || ""}
@@ -489,6 +492,14 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
                 <Hand size={19} />
               </ControlButton>
 
+              <ControlButton
+                active={showWhiteboard}
+                label="Open whiteboard"
+                onClick={() => setShowWhiteboard(!showWhiteboard)}
+              >
+                <BookOpen size={19} />
+              </ControlButton>
+
               <div className="mx-2 h-8 w-px bg-white/[0.08]" />
 
               <button
@@ -502,6 +513,10 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
             </div>
           </div>
         </section>
+
+        {showWhiteboard && (
+          <Whiteboard role="TEACHER" onClose={() => setShowWhiteboard(false)} />
+        )}
 
         {/* ===================================================
             SIDEBAR

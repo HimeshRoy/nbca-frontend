@@ -5,6 +5,7 @@ import { use, useEffect, useMemo, useState } from "react";
 import { useClassroomEvents } from "@/components/live-classroom/use-classroom-events";
 import ClassroomChat from "@/components/live-classroom/classroom-chat";
 import { markLiveClassLeave } from "@/services/attendance.service";
+import Whiteboard from "@/components/live-classroom/whiteboard";
 
 import {
   LiveKitRoom,
@@ -276,6 +277,7 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
   const [showParticipants, setShowParticipants] = useState(true);
 
   const [showChat, setShowChat] = useState(false);
+  const [showWhiteboard, setShowWhiteboard] = useState(false);
   /* ============================================================
      CLASS DATA
   ============================================================ */
@@ -430,7 +432,7 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
             VIDEO AREA
         =================================================== */}
 
-        <section className="flex min-w-0 flex-1 flex-col">
+        <section className="relative flex min-w-0 flex-1 flex-col">
           <div className="relative min-h-0 flex-1 p-4">
             {/* =================================================
                 SCREEN SHARE
@@ -510,6 +512,14 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
                 <Hand size={19} />
               </StudentControlButton>
 
+              <StudentControlButton
+                active={showWhiteboard}
+                label="Open whiteboard"
+                onClick={() => setShowWhiteboard((current) => !current)}
+              >
+                <BookOpen size={19} />
+              </StudentControlButton>
+
               <div className="mx-2 h-8 w-px bg-white/[0.08]" />
 
               {/* LEAVE */}
@@ -524,6 +534,12 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
               </button>
             </div>
           </div>
+          {showWhiteboard && (
+            <Whiteboard
+              role="STUDENT"
+              onClose={() => setShowWhiteboard(false)}
+            />
+          )}
         </section>
 
         {/* ===================================================
