@@ -41,6 +41,17 @@ export const deleteLiveClass = async (id: string) => {
   return response.data;
 };
 
+export const endLiveClass = async (id: string) => {
+  const response = await api.post(
+    `/live-classes/${id}/end`,
+    {},
+    getHeaders(),
+  );
+
+  return response.data;
+};
+
+
 export const getLiveClassStats = async () => {
   const response = await api.get("/live-classes/stats", getHeaders());
 
@@ -66,4 +77,28 @@ export const joinLiveClass = async (id: string) => {
   const response = await api.get(`/live-classes/join/${id}`, getHeaders());
 
   return response.data;
+};
+
+
+export const removeStudentFromLiveClass = async (
+  liveClassId: string,
+  studentId: string,
+) => {
+  const response = await api.delete(
+    `/live-classes/remove/${liveClassId}/students/${studentId}`,
+    getHeaders(),
+  );
+
+  return response.data;
+};
+
+export const checkStudentRemovalStatus = async (
+  liveClassId: string,
+) => {
+  const response = await api.get(
+    `/live-classes/remove/${liveClassId}/status`,
+    getHeaders(),
+  );
+
+  return response.data.removed;
 };
