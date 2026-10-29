@@ -58,7 +58,7 @@ export default function StudentSidebar() {
       <div className="p-8">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-md shadow-violet-200 p-1">
-            <img src="logo.png" alt="" />
+            <img src="/logo.png" alt="nbca_logo" />
           </div>
           <div>
             <h1 className="text-xl font-extrabold text-slate-800 tracking-tight">
