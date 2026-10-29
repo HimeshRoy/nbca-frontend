@@ -492,7 +492,7 @@ export default function ClassroomPoll({
       <button
         type="button"
         onClick={() => setShowTeacherPanel(true)}
-        className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/65 transition hover:bg-white/[0.08] hover:text-white"
+        className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-500 shadow-sm transition hover:bg-gray-50 hover:text-gray-800"
         title="Create poll"
         aria-label="Create poll"
       >
@@ -503,12 +503,12 @@ export default function ClassroomPoll({
 
   if (role === "TEACHER" && !poll && showTeacherPanel) {
     return (
-      <div className="fixed inset-x-4 bottom-24 z-[90] mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0d111b] shadow-2xl backdrop-blur-xl">
-        <div className="flex items-center justify-between border-b border-white/[0.07] px-5 py-4">
+      <div className="fixed inset-x-4 bottom-24 z-[90] mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
+        <div className="flex items-center justify-between border-b border-gray-100 px-5 py-4">
           <div>
-            <p className="text-sm font-semibold text-white">Create poll</p>
+            <p className="text-sm font-bold text-gray-900">Create poll</p>
 
-            <p className="mt-0.5 text-[11px] text-white/35">
+            <p className="mt-0.5 text-[11px] font-medium text-gray-500">
               Ask your students a quick question
             </p>
           </div>
@@ -516,7 +516,7 @@ export default function ClassroomPoll({
           <button
             type="button"
             onClick={() => setShowTeacherPanel(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition hover:bg-white/[0.06] hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
           >
             <X size={17} />
           </button>
@@ -526,7 +526,7 @@ export default function ClassroomPoll({
           {}
 
           <div>
-            <label className="mb-2 block text-xs font-medium text-white/60">
+            <label className="mb-2 block text-xs font-bold text-gray-700">
               Question
             </label>
 
@@ -535,7 +535,7 @@ export default function ClassroomPoll({
               onChange={(event) => setQuestion(event.target.value)}
               placeholder="What is the correct answer?"
               maxLength={300}
-              className="h-11 w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 text-sm text-white outline-none placeholder:text-white/25 focus:border-[#3949ab]/60"
+              className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
             />
           </div>
 
@@ -543,11 +543,11 @@ export default function ClassroomPoll({
 
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <label className="text-xs font-medium text-white/60">
+              <label className="text-xs font-bold text-gray-700">
                 Options
               </label>
 
-              <span className="text-[10px] text-white/30">
+              <span className="text-[10px] font-medium text-gray-500">
                 {options.length}/6
               </span>
             </div>
@@ -560,9 +560,9 @@ export default function ClassroomPoll({
                 return (
                   <div
                     key={index}
-                    className={`flex items-center gap-2 rounded-xl border p-1.5 transition ${
+                    className={`flex items-center gap-2 rounded-xl border p-1.5 transition-all ${
                       isCorrect
-                        ? "border-emerald-400/30 bg-emerald-400/[0.05]"
+                        ? "border-emerald-200 bg-emerald-50"
                         : "border-transparent"
                     }`}
                   >
@@ -581,14 +581,14 @@ export default function ClassroomPoll({
                       }
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition ${
                         isCorrect
-                          ? "border-emerald-400/30 bg-emerald-400/15 text-emerald-300"
-                          : "border-white/[0.08] bg-white/[0.04] text-white/25 hover:border-white/[0.15] hover:text-white/60"
+                          ? "border-emerald-200 bg-emerald-100 text-emerald-600"
+                          : "border-gray-200 bg-gray-50 text-gray-400 hover:border-gray-300 hover:text-gray-600"
                       }`}
                     >
                       {isCorrect ? (
                         <Check size={15} />
                       ) : (
-                        <span className="text-[10px] font-semibold">
+                        <span className="text-[10px] font-bold">
                           {String.fromCharCode(65 + index)}
                         </span>
                       )}
@@ -603,7 +603,7 @@ export default function ClassroomPoll({
                       }
                       placeholder={`Option ${index + 1}`}
                       maxLength={150}
-                      className="h-10 min-w-0 flex-1 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 text-xs text-white outline-none placeholder:text-white/25 focus:border-[#3949ab]/60"
+                      className="h-10 min-w-0 flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 text-xs text-gray-900 outline-none placeholder:text-gray-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                     />
 
                     {}
@@ -612,7 +612,7 @@ export default function ClassroomPoll({
                       <button
                         type="button"
                         onClick={() => removeOption(index)}
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white/30 transition hover:bg-red-500/10 hover:text-red-400"
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-red-50 hover:text-red-500"
                       >
                         <X size={15} />
                       </button>
@@ -622,7 +622,7 @@ export default function ClassroomPoll({
               })}
             </div>
 
-            <p className="mt-2 text-[10px] text-white/25">
+            <p className="mt-2 text-[10px] font-medium text-gray-500">
               Click the circle on an option to mark it as the correct answer.
             </p>
           </div>
@@ -633,7 +633,7 @@ export default function ClassroomPoll({
             <button
               type="button"
               onClick={addOption}
-              className="flex h-9 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/[0.1] text-xs font-medium text-white/45 transition hover:border-[#3949ab]/40 hover:bg-[#3949ab]/5 hover:text-white"
+              className="flex h-9 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 text-xs font-semibold text-gray-500 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
             >
               <Plus size={15} />
               Add option
@@ -650,7 +650,7 @@ export default function ClassroomPoll({
               options.some((option) => !option.trim())
             }
             onClick={() => void handleCreatePoll()}
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#3949ab] text-sm font-semibold text-white transition hover:bg-[#303f9f] disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 text-sm font-bold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 shadow-sm"
           >
             <Send size={16} />
 
@@ -667,34 +667,34 @@ export default function ClassroomPoll({
 
   return (
     <div className="fixed inset-x-4 bottom-24 z-[90] sm:bottom-28 sm:left-auto sm:right-5 sm:w-[390px]">
-      <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0d111b]/[0.98] shadow-2xl backdrop-blur-xl">
+      <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
         {}
 
-        <div className="flex items-start justify-between border-b border-white/[0.07] px-5 py-4">
+        <div className="flex items-start justify-between border-b border-gray-100 px-5 py-4">
           <div className="flex min-w-0 items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#3949ab]/15 text-[#aab2ff]">
-              <BarChart3 size={18} />
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+              <BarChart3 size={20} />
             </div>
 
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold text-white">Live Poll</p>
+                <p className="text-sm font-bold text-gray-900">Live Poll</p>
 
                 {poll.isActive && (
-                  <span className="flex items-center gap-1 rounded-full bg-emerald-400/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-300">
+                  <span className="flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-600">
                     <Radio size={9} />
                     LIVE
                   </span>
                 )}
 
                 {!poll.isActive && (
-                  <span className="rounded-full bg-white/[0.06] px-2 py-0.5 text-[9px] font-semibold text-white/40">
+                  <span className="rounded-full border border-gray-200 bg-gray-100 px-2 py-0.5 text-[9px] font-bold text-gray-500">
                     CLOSED
                   </span>
                 )}
               </div>
 
-              <p className="mt-1 text-[10px] text-white/35">
+              <p className="mt-1 text-[10px] font-medium text-gray-500">
                 {totalVotes} {totalVotes === 1 ? "vote" : "votes"}
               </p>
             </div>
@@ -707,7 +707,7 @@ export default function ClassroomPoll({
               type="button"
               onClick={() => void handleClosePoll()}
               disabled={submitting}
-              className="flex h-8 items-center gap-1.5 rounded-lg border border-red-500/10 bg-red-500/[0.05] px-2.5 text-[10px] font-medium text-red-400 transition hover:bg-red-500/10 disabled:opacity-50"
+              className="flex h-8 items-center gap-1.5 rounded-lg border border-red-100 bg-red-50 px-2.5 text-[10px] font-bold text-red-600 transition hover:bg-red-100 disabled:opacity-50"
             >
               <CircleStop size={14} />
               Close
@@ -718,7 +718,7 @@ export default function ClassroomPoll({
         {}
 
         <div className="px-5 pt-5">
-          <h3 className="text-sm font-semibold leading-6 text-white">
+          <h3 className="text-sm font-bold leading-6 text-gray-900">
             {poll.question}
           </h3>
         </div>
@@ -747,20 +747,20 @@ export default function ClassroomPoll({
                   role === "TEACHER" || !poll.isActive || hasVoted || submitting
                 }
                 onClick={() => setSelectedOption(option.id)}
-                className={`relative w-full overflow-hidden rounded-xl border text-left transition ${
+                className={`relative w-full overflow-hidden rounded-xl border text-left transition-all ${
                   isCorrect
-                    ? "border-emerald-400/30 bg-emerald-400/[0.06]"
+                    ? "border-emerald-300 bg-emerald-50"
                     : isSelected
-                      ? "border-[#3949ab]/60 bg-[#3949ab]/10"
-                      : "border-white/[0.07] bg-white/[0.025] hover:border-white/[0.14] hover:bg-white/[0.04]"
+                      ? "border-indigo-300 bg-indigo-50"
+                      : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
                 } disabled:cursor-default`}
               >
                 {}
 
                 {(hasVoted || role === "TEACHER" || !poll.isActive) && (
                   <div
-                    className={`absolute inset-y-0 left-0 transition-all ${
-                      isCorrect ? "bg-emerald-400/10" : "bg-[#3949ab]/10"
+                    className={`absolute inset-y-0 left-0 transition-all duration-500 ease-out ${
+                      isCorrect ? "bg-emerald-100" : "bg-indigo-100"
                     }`}
                     style={{
                       width: `${percentage}%`,
@@ -772,12 +772,12 @@ export default function ClassroomPoll({
                   {}
 
                   <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[11px] font-semibold ${
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[11px] font-bold ${
                       isCorrect
-                        ? "bg-emerald-400/15 text-emerald-300"
+                        ? "bg-emerald-100 text-emerald-600"
                         : isSelected
-                          ? "bg-[#3949ab] text-white"
-                          : "bg-white/[0.05] text-white/50"
+                          ? "bg-indigo-600 text-white"
+                          : "bg-gray-100 text-gray-500"
                     }`}
                   >
                     {isCorrect ? (
@@ -792,14 +792,14 @@ export default function ClassroomPoll({
                   {}
 
                   <span
-                    className={`min-w-0 flex-1 text-xs font-medium ${
-                      isCorrect ? "text-emerald-200" : "text-white/80"
+                    className={`min-w-0 flex-1 text-xs font-bold ${
+                      isCorrect ? "text-emerald-700" : "text-gray-700"
                     }`}
                   >
                     {option.text}
 
                     {isCorrect && (
-                      <span className="ml-2 text-[9px] font-semibold uppercase tracking-wide text-emerald-300">
+                      <span className="ml-2 text-[9px] font-bold uppercase tracking-wide text-emerald-600">
                         Correct answer
                       </span>
                     )}
@@ -808,7 +808,7 @@ export default function ClassroomPoll({
                   {}
 
                   {(hasVoted || role === "TEACHER" || !poll.isActive) && (
-                    <span className="shrink-0 text-[10px] font-semibold text-white/45">
+                    <span className="shrink-0 text-[10px] font-bold text-gray-500">
                       {percentage}%
                     </span>
                   )}
@@ -821,12 +821,12 @@ export default function ClassroomPoll({
         {}
 
         {role === "STUDENT" && poll.isActive && !hasVoted && (
-          <div className="border-t border-white/[0.07] px-5 py-4">
+          <div className="border-t border-gray-100 bg-gray-50 px-5 py-4">
             <button
               type="button"
               disabled={!selectedOption || submitting}
               onClick={() => void handleVote()}
-              className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#3949ab] text-xs font-semibold text-white transition hover:bg-[#303f9f] disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 text-xs font-bold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50 shadow-sm"
             >
               <Check size={15} />
 
@@ -838,12 +838,12 @@ export default function ClassroomPoll({
         {}
 
         {role === "STUDENT" && hasVoted && poll.isActive && (
-          <div className="border-t border-white/[0.07] px-5 py-3 text-center">
-            <p className="text-[11px] font-medium text-emerald-300">
+          <div className="border-t border-gray-100 bg-gray-50 px-5 py-3 text-center">
+            <p className="text-[11px] font-bold text-emerald-600">
               Your answer has been submitted
             </p>
 
-            <p className="mt-1 text-[10px] text-white/30">
+            <p className="mt-1 text-[10px] font-medium text-gray-500">
               Results are updating live
             </p>
           </div>
@@ -852,8 +852,8 @@ export default function ClassroomPoll({
         {}
 
         {!poll.isActive && (
-          <div className="border-t border-white/[0.07] px-5 py-4">
-            <p className="text-center text-[11px] font-medium text-white/45">
+          <div className="border-t border-gray-100 bg-gray-50 px-5 py-4">
+            <p className="text-center text-[11px] font-bold text-gray-500">
               Poll closed
             </p>
 
@@ -863,7 +863,7 @@ export default function ClassroomPoll({
               <button
                 type="button"
                 onClick={() => void handleCreateNewPoll()}
-                className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-[#3949ab] text-xs font-semibold text-white transition hover:bg-[#303f9f]"
+                className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 text-xs font-bold text-white transition hover:bg-indigo-700 shadow-sm"
               >
                 <Plus size={15} />
                 Create new poll

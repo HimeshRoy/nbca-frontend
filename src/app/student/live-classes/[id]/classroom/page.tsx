@@ -110,11 +110,10 @@ export default function StudentClassroomPage({ params }: Props) {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070a12] text-white">
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#F8F9FA] text-gray-900">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-[#3949ab]" />
-
-          <p className="text-sm text-white/50">Preparing your classroom...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-gray-200 border-t-indigo-600" />
+          <p className="text-sm font-medium text-gray-500">Preparing your classroom...</p>
         </div>
       </div>
     );
@@ -126,19 +125,19 @@ export default function StudentClassroomPage({ params }: Props) {
 
   if (error) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070a12] px-6 text-white">
-        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0d111c] p-8 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-red-400">
-            <Wifi size={22} />
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#F8F9FA] px-6 text-gray-900">
+        <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+            <Wifi size={24} />
           </div>
 
-          <h1 className="text-lg font-semibold">Unable to join classroom</h1>
+          <h1 className="text-xl font-bold text-gray-900">Unable to join classroom</h1>
 
-          <p className="mt-2 text-sm leading-6 text-white/50">{error}</p>
+          <p className="mt-3 text-sm leading-6 text-gray-500">{error}</p>
 
           <button
             onClick={() => window.location.reload()}
-            className="mt-6 rounded-xl bg-[#3949ab] px-5 py-2.5 text-sm font-medium transition hover:bg-[#303f9f]"
+            className="mt-7 w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 active:scale-[0.98]"
           >
             Try again
           </button>
@@ -149,15 +148,15 @@ export default function StudentClassroomPage({ params }: Props) {
 
   if (removed) {
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#070a12] px-6 text-white">
-        <div className="w-full max-w-md rounded-2xl border border-white/[0.08] bg-[#0d111c] p-8 text-center shadow-2xl">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-500/10">
-            <LogOut size={24} className="text-red-400" />
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#F8F9FA] px-6 text-gray-900">
+        <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+            <LogOut size={24} />
           </div>
 
-          <h1 className="mt-5 text-xl font-semibold">Removed from classroom</h1>
+          <h1 className="mt-5 text-xl font-bold text-gray-900">Removed from classroom</h1>
 
-          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-white/50">
+          <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-gray-500">
             You have been removed from this classroom by the teacher. You can no
             longer rejoin this class.
           </p>
@@ -165,7 +164,7 @@ export default function StudentClassroomPage({ params }: Props) {
           <button
             type="button"
             onClick={() => window.history.back()}
-            className="mt-7 rounded-xl bg-[#3949ab] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#303f9f] active:scale-[0.98]"
+            className="mt-7 w-full rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 active:scale-[0.98]"
           >
             Return to live classes
           </button>
@@ -183,7 +182,7 @@ export default function StudentClassroomPage({ params }: Props) {
   ============================================================ */
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-[#070a12]">
+    <div className="fixed inset-0 z-[9999] bg-[#F8F9FA]">
       <LiveKitRoom
         token={token}
         serverUrl={serverUrl}
@@ -290,6 +289,7 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
       room.off("dataReceived", handleWhiteboardControl);
     };
   }, [room]);
+
   /* ============================================================
      CLASS DATA
   ============================================================ */
@@ -375,31 +375,31 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
   ============================================================ */
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#070a12] text-white">
+    <div className="flex h-screen w-full flex-col overflow-hidden bg-[#F8F9FA] text-gray-900">
       {/* =====================================================
           HEADER
       ===================================================== */}
 
-      <header className="flex h-[68px] shrink-0 items-center justify-between border-b border-white/[0.07] bg-[#0b0f19] px-5">
+      <header className="flex h-[68px] shrink-0 items-center justify-between border-b border-gray-200 bg-white px-5 shadow-sm z-10">
         {/* LEFT */}
 
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#3949ab]">
-            <BookOpen size={18} strokeWidth={2.2} />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <BookOpen size={20} strokeWidth={2.2} />
           </div>
 
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="truncate text-sm font-semibold">{classTitle}</h1>
+              <h1 className="truncate text-sm font-bold text-gray-900">{classTitle}</h1>
 
-              <span className="hidden h-1 w-1 rounded-full bg-white/30 sm:block" />
+              <span className="hidden h-1 w-1 rounded-full bg-gray-300 sm:block" />
 
-              <span className="hidden text-xs text-white/40 sm:block">
+              <span className="hidden text-xs font-medium text-gray-500 sm:block">
                 {className}
               </span>
             </div>
 
-            <p className="mt-0.5 truncate text-xs text-white/40">
+            <p className="mt-0.5 truncate text-xs font-medium text-gray-500">
               {subjectName}
               {" · "}
               {teacherName}
@@ -410,44 +410,43 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
         {/* RIGHT */}
 
         <div className="flex items-center gap-2">
-          <div className="hidden items-center gap-2 rounded-lg border border-emerald-400/10 bg-emerald-400/[0.06] px-3 py-2 sm:flex">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-400" />
-
-            <span className="text-xs font-medium text-emerald-300">Live</span>
+          <div className="hidden items-center gap-2 rounded-lg border border-red-100 bg-red-50 px-3 py-2 sm:flex">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
+            <span className="text-xs font-bold text-red-600">Live</span>
           </div>
         </div>
       </header>
 
       {/* =====================================================
-    MAIN
-===================================================== */}
+          MAIN
+      ===================================================== */}
 
       <main className="flex min-h-0 flex-1">
         {/* ===================================================
-      VIDEO AREA
-  =================================================== */}
+            VIDEO AREA
+        =================================================== */}
 
         <section className="relative flex min-w-0 flex-1 flex-col">
           <div className="relative min-h-0 flex-1 p-3 sm:p-4">
             {/* =================================================
-          SCREEN SHARE
-      ================================================= */}
+                SCREEN SHARE
+            ================================================= */}
 
             {activeScreenShare ? (
-              <div className="relative h-full overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.08] bg-black">
+              <div className="relative h-full overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 bg-black shadow-sm">
                 <VideoTrack
                   trackRef={activeScreenShare}
                   className="h-full w-full object-contain"
                 />
 
-                <div className="absolute bottom-3 left-3 rounded-lg border border-white/10 bg-black/70 px-3 py-2 text-[11px] font-medium backdrop-blur sm:bottom-4 sm:left-4 sm:text-xs">
+                <div className="absolute bottom-3 left-3 rounded-lg border border-white/10 bg-black/70 px-3 py-2 text-[11px] font-medium text-white backdrop-blur sm:bottom-4 sm:left-4 sm:text-xs">
                   Teacher is sharing their screen
                 </div>
               </div>
             ) : teacherTrack ? (
               /* =================================================
-           TEACHER CAMERA
-        ================================================= */
+                 TEACHER CAMERA
+              ================================================= */
 
               <StudentTeacherVideo
                 track={teacherTrack}
@@ -455,19 +454,19 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
               />
             ) : (
               /* =================================================
-           NO TEACHER VIDEO
-        ================================================= */
+                 NO TEACHER VIDEO
+              ================================================= */
 
-              <div className="relative flex h-full items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.08] bg-[#05070c]">
+              <div className="relative flex h-full items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl border border-gray-200 bg-white shadow-sm">
                 <div className="flex flex-col items-center px-6 text-center">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#3949ab] text-2xl font-semibold sm:h-24 sm:w-24 sm:text-3xl">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-indigo-50 text-indigo-600 text-2xl font-bold sm:h-24 sm:w-24 sm:text-3xl">
                     {getInitials(teacherName)}
                   </div>
 
-                  <p className="mt-4 text-sm font-medium">{teacherName}</p>
+                  <p className="mt-5 text-sm font-bold text-gray-900">{teacherName}</p>
 
-                  <p className="mt-1 text-xs text-white/35">
-                    Waiting for teacher video
+                  <p className="mt-1.5 text-xs font-medium text-gray-500">
+                    Waiting for teacher's video...
                   </p>
                 </div>
               </div>
@@ -475,10 +474,10 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
           </div>
 
           {/* =================================================
-        STUDENT CONTROLS
-    ================================================= */}
+              STUDENT CONTROLS
+          ================================================= */}
 
-          <div className="flex h-[72px] shrink-0 items-center justify-center border-t border-white/[0.07] bg-[#0b0f19] px-3 sm:h-[82px]">
+          <div className="flex h-[72px] shrink-0 items-center justify-center border-t border-gray-200 bg-white px-3 shadow-sm sm:h-[82px] z-10">
             <div className="flex items-center gap-2">
               {/* CHAT */}
 
@@ -502,13 +501,13 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
                 <Hand size={19} />
               </StudentControlButton>
 
-              <div className="mx-1 h-8 w-px bg-white/[0.08] sm:mx-2" />
+              <div className="mx-1 h-8 w-px bg-gray-200 sm:mx-2" />
 
               {/* LEAVE */}
 
               <button
                 onClick={leaveClass}
-                className="flex h-11 items-center justify-center rounded-xl bg-red-600 px-4 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-[0.98] sm:gap-2 sm:px-5"
+                className="flex h-11 items-center justify-center rounded-xl bg-red-500 px-4 text-sm font-semibold text-white transition hover:bg-red-600 active:scale-[0.98] sm:gap-2 sm:px-5"
               >
                 <LogOut size={17} />
 
@@ -518,28 +517,28 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
           </div>
 
           {/* =================================================
-        STUDENT WHITEBOARD
-    ================================================= */}
+              STUDENT WHITEBOARD
+          ================================================= */}
 
           {showWhiteboard && <Whiteboard role="STUDENT" onClose={() => {}} />}
         </section>
 
         {/* ===================================================
-      DESKTOP CHAT
-  =================================================== */}
+            DESKTOP CHAT
+        =================================================== */}
 
-        <aside className="hidden w-[320px] shrink-0 border-l border-white/[0.07] bg-[#0b0f19] xl:flex xl:flex-col">
+        <aside className="hidden w-[320px] shrink-0 border-l border-gray-200 bg-white shadow-sm xl:flex xl:flex-col z-10">
           <div className="min-h-0 flex-1">
             <ClassroomChat liveClassId={liveClass?.id || ""} />
           </div>
         </aside>
 
         {/* ===================================================
-      MOBILE / TABLET CHAT
-  =================================================== */}
+            MOBILE / TABLET CHAT
+        =================================================== */}
 
         {showChat && (
-          <div className="absolute inset-x-0 bottom-[72px] top-0 z-40 bg-[#0b0f19] sm:bottom-[82px] xl:hidden">
+          <div className="absolute inset-x-0 bottom-[72px] top-0 z-40 bg-white sm:bottom-[82px] xl:hidden">
             <ClassroomChat
               liveClassId={liveClass?.id || ""}
               onClose={() => setShowChat(false)}
@@ -563,13 +562,14 @@ function StudentTeacherVideo({
   teacherName: string;
 }) {
   return (
-    <div className="relative h-full overflow-hidden rounded-2xl border border-white/[0.08] bg-black">
+    <div className="relative h-full overflow-hidden rounded-2xl border border-gray-200 bg-black shadow-sm">
       <VideoTrack trackRef={track} className="h-full w-full object-cover" />
 
-      <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-lg border border-white/10 bg-black/65 px-3 py-2 backdrop-blur">
-        <span className="text-xs font-medium">{teacherName}</span>
+      {/* Video Overlay Info remains dark mode to contrast with video content */}
+      <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-lg border border-white/10 bg-black/65 px-3 py-2 text-white backdrop-blur">
+        <span className="text-xs font-semibold">{teacherName}</span>
 
-        <span className="text-[11px] text-white/40">· Teacher</span>
+        <span className="text-[11px] font-medium text-white/60">· Teacher</span>
       </div>
     </div>
   );
@@ -589,25 +589,25 @@ function StudentParticipantRow({
   isLocal: boolean;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.025] px-3 py-2.5 transition hover:bg-white/[0.045]">
+    <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm transition hover:bg-gray-50">
       <div
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-          isTeacher ? "bg-[#3949ab]" : "bg-white/10"
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+          isTeacher ? "bg-indigo-100 text-indigo-700" : "bg-gray-100 text-gray-700"
         }`}
       >
         {getInitials(name)}
       </div>
 
       <div className="min-w-0 flex-1">
-        <p className="truncate text-xs font-medium">{isLocal ? "You" : name}</p>
+        <p className="truncate text-xs font-bold text-gray-900">{isLocal ? "You" : name}</p>
 
-        <p className="mt-0.5 text-[10px] text-white/35">
+        <p className="mt-0.5 text-[10px] font-medium text-gray-500">
           {isTeacher ? "Teacher" : "Student"}
         </p>
       </div>
 
       {isTeacher && (
-        <span className="rounded-md bg-[#3949ab]/10 px-2 py-1 text-[9px] font-medium text-[#9da7ff]">
+        <span className="rounded-md bg-indigo-50 px-2 py-1 text-[9px] font-bold text-indigo-600">
           HOST
         </span>
       )}
@@ -637,8 +637,8 @@ function StudentControlButton({
       aria-label={label}
       className={`flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-[0.96] ${
         active
-          ? "border-[#3949ab]/40 bg-[#3949ab]/15 text-[#aab2ff]"
-          : "border-white/[0.08] bg-white/[0.04] text-white/65 hover:bg-white/[0.08] hover:text-white"
+          ? "border-indigo-200 bg-indigo-50 text-indigo-600 shadow-sm"
+          : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-800"
       }`}
     >
       {children}

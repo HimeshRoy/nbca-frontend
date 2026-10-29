@@ -130,29 +130,29 @@ export default function ClassroomChat({
   };
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-[#0d111b]">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-hidden bg-white">
       {/* =====================================================
           HEADER
       ===================================================== */}
 
-      <div className="flex h-[58px] shrink-0 items-center justify-between border-b border-white/[0.07] px-4">
-            <div className="flex items-center gap-2">
-              <MessageSquare size={16} className="text-[#9da7ff]" />
+      <div className="flex h-[58px] shrink-0 items-center justify-between border-b border-gray-200 px-4">
+        <div className="flex items-center gap-2">
+          <MessageSquare size={18} className="text-indigo-600" />
 
-              <div>
-                <p className="text-sm font-semibold">Classroom Chat</p>
+          <div>
+            <p className="text-sm font-bold text-gray-900">Classroom Chat</p>
 
-                <p className="mt-0.5 text-[11px] text-white/35">
-                  Messages are visible to everyone
-                </p>
-              </div>
-            </div>
+            <p className="mt-0.5 text-[11px] font-medium text-gray-500">
+              Messages are visible to everyone
+            </p>
+          </div>
+        </div>
 
         {showCloseButton && onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="ml-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white/50 transition hover:bg-white/[0.06] hover:text-white"
+            className="ml-3 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
             aria-label="Close chat"
             title="Close chat"
           >
@@ -168,13 +168,13 @@ export default function ClassroomChat({
       <div className="min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-4">
         {allMessages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center px-4 text-center">
-            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.03]">
-              <Send size={17} className="text-white/40" />
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border border-gray-100 bg-gray-50">
+              <Send size={18} className="text-gray-400" />
             </div>
 
-            <p className="text-sm font-medium text-white/70">No messages yet</p>
+            <p className="text-sm font-bold text-gray-900">No messages yet</p>
 
-            <p className="mt-1 max-w-[220px] text-xs leading-5 text-white/35">
+            <p className="mt-1.5 max-w-[220px] text-xs font-medium leading-5 text-gray-500">
               Send a message to start the classroom conversation.
             </p>
           </div>
@@ -195,18 +195,18 @@ export default function ClassroomChat({
                     isMine ? "items-end" : "items-start"
                   }`}
                 >
-                  <span className="mb-1 max-w-[90%] truncate text-[11px] font-semibold text-white/45">
+                  <span className="mb-1 max-w-[90%] truncate text-[11px] font-bold text-gray-500">
                     {isMine ? "You" : senderName}
                   </span>
 
                   <div
-                    className={`max-w-[90%] break-words rounded-xl px-3 py-2.5 ${
+                    className={`max-w-[90%] break-words rounded-xl px-3.5 py-2.5 ${
                       isMine
-                        ? "rounded-tr-md bg-[#3949ab] text-white"
-                        : "rounded-tl-md border border-white/[0.06] bg-white/[0.04] text-white/80"
+                        ? "rounded-tr-sm bg-indigo-600 text-white shadow-sm"
+                        : "rounded-tl-sm border border-gray-100 bg-gray-50 text-gray-800"
                     }`}
                   >
-                    <p className="text-sm leading-5">{chatMessage.message}</p>
+                    <p className="text-sm leading-5 font-medium">{chatMessage.message}</p>
                   </div>
                 </div>
               );
@@ -223,9 +223,9 @@ export default function ClassroomChat({
 
       <form
         onSubmit={handleSubmit}
-        className="shrink-0 border-t border-white/[0.07] p-3"
+        className="shrink-0 border-t border-gray-200 bg-white p-3"
       >
-        <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] p-1.5">
+        <div className="flex min-w-0 items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 p-1.5 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 transition-all">
           <input
             type="text"
             value={message}
@@ -233,13 +233,13 @@ export default function ClassroomChat({
             placeholder="Type a message..."
             maxLength={1000}
             autoComplete="off"
-            className="min-w-0 flex-1 bg-transparent px-2 py-2 text-sm text-white outline-none placeholder:text-white/25"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400"
           />
 
           <button
             type="submit"
             disabled={!message.trim() || isSending}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#4655d6] text-white transition hover:bg-[#5261e6] disabled:cursor-not-allowed disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-600 text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label="Send message"
           >
             <Send size={16} />
