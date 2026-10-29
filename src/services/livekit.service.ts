@@ -13,6 +13,32 @@ export interface LiveClassRoomData {
   roomName: string;
   liveClassId: string;
   role: "TEACHER" | "STUDENT";
+  displayName: string;
+
+  liveClass: {
+    id: string;
+    title: string;
+    description?: string | null;
+
+    teacher: {
+      id: string;
+      name: string;
+    };
+
+    class: {
+      id: string;
+      name: string;
+    };
+
+    subject: {
+      id: string;
+      name: string;
+    };
+
+    startTime: string;
+    endTime: string;
+    isActive: boolean;
+  };
 }
 
 export const joinLiveClassRoom = async (

@@ -4,6 +4,7 @@ import { use, useEffect, useMemo, useState } from "react";
 import { useClassroomEvents } from "@/components/live-classroom/use-classroom-events";
 import ClassroomChat from "@/components/live-classroom/classroom-chat";
 import Whiteboard from "@/components/live-classroom/whiteboard";
+import ClassroomPoll from "@/components/live-classroom/classroom-poll";
 
 import {
   LiveKitRoom,
@@ -22,7 +23,7 @@ import {
   CameraOff,
   Hand,
   LogOut,
-  Maximize,
+  BarChart3,
   MessageSquare,
   Mic,
   MicOff,
@@ -197,6 +198,8 @@ export default function TeacherClassroomPage({ params }: Props) {
    CLASSROOM
 ============================================================ */
 
+const WHITEBOARD_CONTROL_TOPIC = "nbca-whiteboard-control";
+
 function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
   const {
     localParticipant,
@@ -225,6 +228,66 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
   const [showChat, setShowChat] = useState(false);
 
   const [showWhiteboard, setShowWhiteboard] = useState(false);
+
+  const [showPoll, setShowPoll] = useState(false);
+
+  useEffect(() => {
+    const sendWhiteboardVisibility = async () => {
+      try {
+        if (room.state !== "connected") {
+          return;
+        }
+
+        const payload = new TextEncoder().encode(
+          JSON.stringify({
+            type: showWhiteboard ? "open" : "close",
+          }),
+        );
+
+        await room.localParticipant.publishData(payload, {
+          reliable: true,
+          topic: WHITEBOARD_CONTROL_TOPIC,
+        });
+      } catch (error) {
+        console.error("Failed to sync whiteboard visibility:", error);
+      }
+    };
+
+    void sendWhiteboardVisibility();
+  }, [room, showWhiteboard]);
+
+  useEffect(() => {
+    const handleParticipantConnected = () => {
+      const sendCurrentWhiteboardState = async () => {
+        try {
+          if (room.state !== "connected") {
+            return;
+          }
+
+          const payload = new TextEncoder().encode(
+            JSON.stringify({
+              type: showWhiteboard ? "open" : "close",
+            }),
+          );
+
+          await room.localParticipant.publishData(payload, {
+            reliable: true,
+            topic: WHITEBOARD_CONTROL_TOPIC,
+          });
+        } catch (error) {
+          console.error("Failed to sync whiteboard state:", error);
+        }
+      };
+
+      void sendCurrentWhiteboardState();
+    };
+
+    room.on("participantConnected", handleParticipantConnected);
+
+    return () => {
+      room.off("participantConnected", handleParticipantConnected);
+    };
+  }, [room, showWhiteboard]);
 
   const teacherName = useMemo(() => {
     const teacher = liveClass?.teacher;
@@ -494,10 +557,18 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
 
               <ControlButton
                 active={showWhiteboard}
-                label="Open whiteboard"
-                onClick={() => setShowWhiteboard(!showWhiteboard)}
+                label={showWhiteboard ? "Close whiteboard" : "Open whiteboard"}
+                onClick={() => setShowWhiteboard((current) => !current)}
               >
                 <BookOpen size={19} />
+              </ControlButton>
+
+              <ControlButton
+                active={showPoll}
+                label={showPoll ? "Close poll" : "Create poll"}
+                onClick={() => setShowPoll((current) => !current)}
+              >
+                <BarChart3 size={19} />
               </ControlButton>
 
               <div className="mx-2 h-8 w-px bg-white/[0.08]" />
@@ -516,6 +587,10 @@ function TeacherClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
 
         {showWhiteboard && (
           <Whiteboard role="TEACHER" onClose={() => setShowWhiteboard(false)} />
+        )}
+
+        {showPoll && liveClass?.id && (
+          <ClassroomPoll liveClassId={liveClass.id} role="TEACHER" />
         )}
 
         {/* ===================================================

@@ -6,32 +6,23 @@ import { useClassroomEvents } from "@/components/live-classroom/use-classroom-ev
 import ClassroomChat from "@/components/live-classroom/classroom-chat";
 import { markLiveClassLeave } from "@/services/attendance.service";
 import Whiteboard from "@/components/live-classroom/whiteboard";
+import ClassroomPoll from "@/components/live-classroom/classroom-poll";
 
 import {
   LiveKitRoom,
   RoomAudioRenderer,
   VideoTrack,
   useLocalParticipant,
-  useParticipants,
   useTracks,
   useRoomContext,
   type TrackReference,
 } from "@livekit/components-react";
 
-import {
-  BookOpen,
-  Hand,
-  LogOut,
-  MessageSquare,
-  PanelRight,
-  Users,
-  Wifi,
-} from "lucide-react";
+import { BookOpen, Hand, LogOut, MessageSquare, Wifi } from "lucide-react";
 
 import { Track } from "livekit-client";
 
 import { joinLiveClassRoom } from "@/services/livekit.service";
-import { getStudentLiveClasses } from "@/services/live-class.service";
 import {
   checkStudentRemovalStatus,
   getLiveClassById,
@@ -46,7 +37,7 @@ interface Props {
 interface LiveClassData {
   id?: string;
   title?: string;
-  description?: string;
+  description?: string | null;
 
   teacher?: {
     id?: string;
@@ -96,27 +87,11 @@ export default function StudentClassroomPage({ params }: Props) {
         setLoading(true);
         setError(null);
 
-        const [roomData, classesResponse] = await Promise.all([
-          joinLiveClassRoom(id),
-          getStudentLiveClasses(),
-        ]);
+        const roomData = await joinLiveClassRoom(id);
 
         setToken(roomData.token);
         setServerUrl(roomData.url);
-
-        const response: any = classesResponse;
-
-        const classes = response?.data?.data ?? response?.data ?? response;
-
-        if (Array.isArray(classes)) {
-          const currentClass = classes.find(
-            (item: LiveClassData) => item.id === id,
-          );
-
-          if (currentClass) {
-            setLiveClass(currentClass);
-          }
-        }
+        setLiveClass(roomData.liveClass);
       } catch (error: any) {
         console.error("Failed to join classroom:", error);
 
@@ -233,6 +208,9 @@ export default function StudentClassroomPage({ params }: Props) {
       >
         <StudentClassroom liveClass={liveClass} />
 
+        {/* LIVE POLL */}
+        <ClassroomPoll liveClassId={id} role="STUDENT" />
+
         <RoomAudioRenderer />
       </LiveKitRoom>
     </div>
@@ -243,14 +221,14 @@ export default function StudentClassroomPage({ params }: Props) {
    STUDENT CLASSROOM
 ============================================================ */
 
+const WHITEBOARD_CONTROL_TOPIC = "nbca-whiteboard-control";
+
 function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
   const { localParticipant } = useLocalParticipant();
 
   const room = useRoomContext();
 
   const { isRaised, toggleRaiseHand } = useClassroomEvents("STUDENT");
-
-  const participants = useParticipants();
 
   /* ============================================================
      TRACKS
@@ -274,10 +252,44 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
      UI STATE
   ============================================================ */
 
-  const [showParticipants, setShowParticipants] = useState(true);
-
   const [showChat, setShowChat] = useState(false);
   const [showWhiteboard, setShowWhiteboard] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(true);
+
+  useEffect(() => {
+    const handleWhiteboardControl = (
+      payload: Uint8Array,
+      _participant?: unknown,
+      _kind?: unknown,
+      topic?: string,
+    ) => {
+      if (topic !== WHITEBOARD_CONTROL_TOPIC) {
+        return;
+      }
+
+      try {
+        const message = JSON.parse(new TextDecoder().decode(payload)) as {
+          type: "open" | "close";
+        };
+
+        if (message.type === "open") {
+          setShowWhiteboard(true);
+        }
+
+        if (message.type === "close") {
+          setShowWhiteboard(false);
+        }
+      } catch (error) {
+        console.error("Failed to process whiteboard control:", error);
+      }
+    };
+
+    room.on("dataReceived", handleWhiteboardControl);
+
+    return () => {
+      room.off("dataReceived", handleWhiteboardControl);
+    };
+  }, [room]);
   /* ============================================================
      CLASS DATA
   ============================================================ */
@@ -403,56 +415,39 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
 
             <span className="text-xs font-medium text-emerald-300">Live</span>
           </div>
-
-          <button
-            onClick={() => setShowParticipants((current) => !current)}
-            className={`flex h-9 items-center gap-2 rounded-lg border px-3 transition ${
-              showParticipants
-                ? "border-[#3949ab]/40 bg-[#3949ab]/10 text-white"
-                : "border-white/[0.08] bg-white/[0.03] text-white/60 hover:bg-white/[0.06]"
-            }`}
-            aria-label="Toggle participants"
-            title="Toggle participants"
-          >
-            <Users size={16} />
-
-            <span className="hidden text-xs font-medium sm:block">
-              {participants.length}
-            </span>
-          </button>
         </div>
       </header>
 
       {/* =====================================================
-          MAIN
-      ===================================================== */}
+    MAIN
+===================================================== */}
 
       <main className="flex min-h-0 flex-1">
         {/* ===================================================
-            VIDEO AREA
-        =================================================== */}
+      VIDEO AREA
+  =================================================== */}
 
         <section className="relative flex min-w-0 flex-1 flex-col">
-          <div className="relative min-h-0 flex-1 p-4">
+          <div className="relative min-h-0 flex-1 p-3 sm:p-4">
             {/* =================================================
-                SCREEN SHARE
-            ================================================= */}
+          SCREEN SHARE
+      ================================================= */}
 
             {activeScreenShare ? (
-              <div className="relative h-full overflow-hidden rounded-2xl border border-white/[0.08] bg-black">
+              <div className="relative h-full overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.08] bg-black">
                 <VideoTrack
                   trackRef={activeScreenShare}
                   className="h-full w-full object-contain"
                 />
 
-                <div className="absolute bottom-4 left-4 rounded-lg border border-white/10 bg-black/70 px-3 py-2 text-xs font-medium backdrop-blur">
+                <div className="absolute bottom-3 left-3 rounded-lg border border-white/10 bg-black/70 px-3 py-2 text-[11px] font-medium backdrop-blur sm:bottom-4 sm:left-4 sm:text-xs">
                   Teacher is sharing their screen
                 </div>
               </div>
             ) : teacherTrack ? (
               /* =================================================
-                  TEACHER CAMERA
-              ================================================= */
+           TEACHER CAMERA
+        ================================================= */
 
               <StudentTeacherVideo
                 track={teacherTrack}
@@ -460,12 +455,12 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
               />
             ) : (
               /* =================================================
-                  NO TEACHER VIDEO
-              ================================================= */
+           NO TEACHER VIDEO
+        ================================================= */
 
-              <div className="relative flex h-full items-center justify-center overflow-hidden rounded-2xl border border-white/[0.08] bg-[#05070c]">
-                <div className="flex flex-col items-center">
-                  <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[#3949ab] text-3xl font-semibold">
+              <div className="relative flex h-full items-center justify-center overflow-hidden rounded-xl sm:rounded-2xl border border-white/[0.08] bg-[#05070c]">
+                <div className="flex flex-col items-center px-6 text-center">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#3949ab] text-2xl font-semibold sm:h-24 sm:w-24 sm:text-3xl">
                     {getInitials(teacherName)}
                   </div>
 
@@ -479,24 +474,19 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
             )}
           </div>
 
-          {showChat && (
-            <ClassroomChat
-              liveClassId={liveClass?.id || ""}
-              onClose={() => setShowChat(false)}
-            />
-          )}
-
           {/* =================================================
-              STUDENT CONTROLS
-          ================================================= */}
+        STUDENT CONTROLS
+    ================================================= */}
 
-          <div className="flex h-[82px] shrink-0 items-center justify-center border-t border-white/[0.07] bg-[#0b0f19]">
+          <div className="flex h-[72px] shrink-0 items-center justify-center border-t border-white/[0.07] bg-[#0b0f19] px-3 sm:h-[82px]">
             <div className="flex items-center gap-2">
               {/* CHAT */}
 
               <StudentControlButton
                 active={showChat}
-                label="Open classroom chat"
+                label={
+                  showChat ? "Close classroom chat" : "Open classroom chat"
+                }
                 onClick={() => setShowChat((current) => !current)}
               >
                 <MessageSquare size={19} />
@@ -512,21 +502,13 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
                 <Hand size={19} />
               </StudentControlButton>
 
-              <StudentControlButton
-                active={showWhiteboard}
-                label="Open whiteboard"
-                onClick={() => setShowWhiteboard((current) => !current)}
-              >
-                <BookOpen size={19} />
-              </StudentControlButton>
-
-              <div className="mx-2 h-8 w-px bg-white/[0.08]" />
+              <div className="mx-1 h-8 w-px bg-white/[0.08] sm:mx-2" />
 
               {/* LEAVE */}
 
               <button
                 onClick={leaveClass}
-                className="flex h-11 items-center gap-2 rounded-xl bg-red-600 px-5 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-[0.98]"
+                className="flex h-11 items-center justify-center rounded-xl bg-red-600 px-4 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-[0.98] sm:gap-2 sm:px-5"
               >
                 <LogOut size={17} />
 
@@ -534,65 +516,35 @@ function StudentClassroom({ liveClass }: { liveClass: LiveClassData | null }) {
               </button>
             </div>
           </div>
-          {showWhiteboard && (
-            <Whiteboard
-              role="STUDENT"
-              onClose={() => setShowWhiteboard(false)}
-            />
-          )}
+
+          {/* =================================================
+        STUDENT WHITEBOARD
+    ================================================= */}
+
+          {showWhiteboard && <Whiteboard role="STUDENT" onClose={() => {}} />}
         </section>
 
         {/* ===================================================
-            PARTICIPANTS
-        =================================================== */}
+      DESKTOP CHAT
+  =================================================== */}
 
-        {showParticipants && (
-          <aside className="hidden w-[300px] shrink-0 border-l border-white/[0.07] bg-[#0b0f19] lg:flex lg:flex-col">
-            {/* HEADER */}
+        <aside className="hidden w-[320px] shrink-0 border-l border-white/[0.07] bg-[#0b0f19] xl:flex xl:flex-col">
+          <div className="min-h-0 flex-1">
+            <ClassroomChat liveClassId={liveClass?.id || ""} />
+          </div>
+        </aside>
 
-            <div className="flex h-[58px] shrink-0 items-center justify-between border-b border-white/[0.07] px-4">
-              <div>
-                <p className="text-sm font-semibold">Participants</p>
+        {/* ===================================================
+      MOBILE / TABLET CHAT
+  =================================================== */}
 
-                <p className="mt-0.5 text-[11px] text-white/35">
-                  {participants.length} in classroom
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowParticipants(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-white/40 transition hover:bg-white/[0.05] hover:text-white"
-                title="Close participants"
-                aria-label="Close participants"
-              >
-                <PanelRight size={16} />
-              </button>
-            </div>
-
-            {/* LIST */}
-
-            <div className="min-h-0 flex-1 overflow-y-auto p-3">
-              <div className="space-y-2">
-                {participants.map((participant) => {
-                  const isTeacher =
-                    participant.identity !== localParticipant.identity;
-
-                  const name = isTeacher ? teacherName : "You";
-
-                  return (
-                    <StudentParticipantRow
-                      key={participant.sid}
-                      name={name}
-                      isTeacher={isTeacher}
-                      isLocal={
-                        participant.identity === localParticipant.identity
-                      }
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          </aside>
+        {showChat && (
+          <div className="absolute inset-x-0 bottom-[72px] top-0 z-40 bg-[#0b0f19] sm:bottom-[82px] xl:hidden">
+            <ClassroomChat
+              liveClassId={liveClass?.id || ""}
+              onClose={() => setShowChat(false)}
+            />
+          </div>
         )}
       </main>
     </div>

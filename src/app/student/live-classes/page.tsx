@@ -31,18 +31,34 @@ export default function StudentLiveClassesPage() {
   };
 
   useEffect(() => {
+    let mounted = true;
+
     const loadLiveClasses = async () => {
       try {
         const result = await getStudentLiveClasses();
-        setLiveClasses(result.data);
+
+        if (!mounted) return;
+
+        setLiveClasses(result?.data ?? []);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load student live classes:", error);
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
+    // Load immediately
     loadLiveClasses();
+
+    // Keep Live / Upcoming / Completed status fresh
+    const interval = window.setInterval(loadLiveClasses, 15_000);
+
+    return () => {
+      mounted = false;
+      window.clearInterval(interval);
+    };
   }, []);
 
   const liveNow = liveClasses.filter((c) => c.status === "LIVE");

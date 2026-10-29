@@ -18,3 +18,16 @@ export const markLiveClassLeave = async (
 
   return response.data;
 };
+
+export const getMyAttendance = async () => {
+  const response = await api.get(
+    "/attendance/my",
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    },
+  );
+
+  return response.data;
+};
