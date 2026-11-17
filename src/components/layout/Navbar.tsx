@@ -20,7 +20,7 @@ export default function Navbar() {
             </div>
             <div>
               <h1 className="text-xl font-black tracking-tight text-slate-900 group-hover:text-blue-700 transition-colors">NBCA<span className="text-blue-500 text-2xl">.</span></h1>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">North Bengal Cloud</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">North Bengal Cloud Academy</p>
             </div>
           </Link>
 
